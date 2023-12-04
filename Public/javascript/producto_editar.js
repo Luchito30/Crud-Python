@@ -52,13 +52,32 @@ createApp({
                 redirect: 'follow'
             };
             fetch(this.url, options)
-                .then(() => {
-                    alert("Registro modificado");
-                    window.location.href = "./index.html";
+                .then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "El producto se ha modificado con éxito",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = "./productos.html";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error al modificar el producto",
+                            text: "Por favor, inténtelo de nuevo."
+                        });
+                    }
                 })
                 .catch(err => {
                     console.error(err);
-                    alert("Error al Modificar");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error al modificar el producto",
+                        text: "Por favor, inténtelo de nuevo."
+                    });
                 });
         }
     },

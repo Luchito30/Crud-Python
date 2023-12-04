@@ -1,0 +1,40 @@
+.main__titulo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 70px;
+    color: wheat;
+    filter: drop-shadow(2px 4px 5px black);
+}
+
+.boton__nuevo{
+    filter: drop-shadow(3px 4px 5px black);
+}
+
+.main__cargando_p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;   
+    font-weight: 700;
+}
+
+.talbe__conteiner{
+    background-color: black;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+.talbe-titulotable{
+    color: wheat;
+    font-size: 18px;
+    font-weight: 700;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+.talbe-contenido{
+    color: white;
+    filter: drop-shadow(3px 3px 2px black);
+}
+
+.boton__actions{
+    filter: drop-shadow(2px 4px 3px black);
+}

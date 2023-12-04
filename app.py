@@ -140,6 +140,161 @@ def delete_producto(id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # Devolver código 500 si hay un error durante la eliminación
 
+        # Definición del modelo de datos
+class Turno(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fecha = db.Column(db.Date, unique=True, nullable=False)
+    hora = db.Column(db.Time, unique=True, nullable=False)
+    paciente_nombre = db.Column(db.String(255), nullable=False)
+    especialidad = db.Column(db.String(100))
+    estado = db.Column(db.Enum('Programado', 'En curso', 'Completado', 'Cancelado'), default='Programado')
+    notas = db.Column(db.Text)
+    created_at = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
+    updated_at = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+
+    def __init__(self, fecha, hora, paciente_nombre, especialidad, estado, notas):
+        self.fecha = fecha
+        self.hora = hora
+        self.paciente_nombre = paciente_nombre
+        self.especialidad = especialidad
+        self.estado = estado
+        self.notas = notas
+
+# Definición del esquema
+class TurnoSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'fecha', 'hora', 'paciente_nombre', 'especialidad', 'estado', 'notas')
+
+# Creación de esquemas para la base de datos
+turno_schema = TurnoSchema()
+turnos_schema = TurnoSchema(many=True)
+
+# Creación de la tabla
+with app.app_context():
+    db.create_all()
+
+# Endpoint Get
+@app.route('/turnos', methods=['GET'])
+def get_all_turnos():
+    try:
+        turnos = Turno.query.all()
+        if turnos:
+            # Convertir la lista de turnos a un formato JSON y devolverlo como respuesta
+            return jsonify(turnos_schema.dump(turnos))
+        else:
+            return jsonify([])  # Si no hay turnos, devolver una lista vacía
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Endpoint GET por ID para obtener un turno específico
+@app.route('/turnos/<id>', methods=['GET'])
+def get_turno(id):
+    try:
+        turno = Turno.query.get(id)
+
+        if turno:
+            return turno_schema.jsonify(turno)
+        else:
+            return jsonify({'error': 'Turno no encontrado'}), 404
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Nueva función para validar el horario de los turnos
+def validar_horario(fecha, hora):
+    # Obtén el día de la semana (lunes: 0, martes: 1, ..., domingo: 6)
+    dia_semana = fecha.weekday()
+
+    # Verifica el horario según las restricciones
+    if 9 <= hora.hour < 21 and 0 <= dia_semana < 5:  # De lunes a viernes de 9 a 21
+        return True
+    elif (9 <= hora.hour < 13 or 17 <= hora.hour < 21) and dia_semana == 5:  # Sábado de 9 a 13 y 17 a 21
+        return True
+    else:
+        return False
+
+# Nueva función para verificar si un turno está ocupado
+def turno_ocupado(fecha, hora):
+    # Consulta la base de datos para verificar si ya existe un turno en esa fecha y hora
+    turno_existente = Turno.query.filter_by(fecha=fecha, hora=hora).first()
+    return turno_existente is not None
+
+# Ruta para crear un nuevo turno mediante una solicitud POST
+@app.route('/turnos', methods=['POST'])
+def create_turno():
+    try:
+        json_data = request.get_json()
+        fecha = datetime.datetime.strptime(json_data['fecha'], '%Y-%m-%d').date()
+        hora = datetime.datetime.strptime(json_data['hora'], '%H:%M').time()  # Modificado aquí
+        paciente_nombre = json_data['paciente_nombre']
+        especialidad = json_data['especialidad']
+        estado = json_data['estado']
+        notas = json_data['notas']
+
+        # Validar horario y disponibilidad del turno
+        if not validar_horario(fecha, hora) or turno_ocupado(fecha, hora):
+            return jsonify({'error': 'Horario no válido o turno ya ocupado'}), 400
+
+        nuevo_turno = Turno(
+            fecha=fecha,
+            hora=hora,
+            paciente_nombre=paciente_nombre,
+            especialidad=especialidad,
+            estado=estado,
+            notas=notas
+        )
+
+        db.session.add(nuevo_turno)
+        db.session.commit()
+
+        return turno_schema.jsonify(nuevo_turno), 201
+    except ValidationError as err:
+        return jsonify({'error': err.messages}), 400
+
+# Ruta para actualizar un turno mediante una solicitud PUT
+@app.route('/turnos/<id>', methods=['PUT'])
+def update_turno(id):
+    try:
+        turno = Turno.query.get(id)
+
+        # Verificar si el turno existe en la base de datos
+        if turno:
+            json_data = request.get_json()
+            turno.fecha = datetime.datetime.strptime(json_data.get('fecha', str(turno.fecha)), '%Y-%m-%d').date()
+            turno.hora = datetime.datetime.strptime(json_data.get('hora', str(turno.hora)), '%H:%M:%S').time()
+            turno.paciente_nombre = json_data.get('paciente_nombre', turno.paciente_nombre)
+            turno.especialidad = json_data.get('especialidad', turno.especialidad)
+            turno.estado = json_data.get('estado', turno.estado)
+            turno.notas = json_data.get('notas', turno.notas)
+
+            # Realizar validaciones según tus requerimientos
+
+            db.session.commit()
+            return turno_schema.jsonify(turno)
+        else:
+            return jsonify({'error': 'Turno no encontrado'}), 404  # Devolver código 404 si el turno no existe
+
+    except ValidationError as err:
+        return jsonify({'error': err.messages}), 400  # Devolver mensajes de error de validación con el código 400 (error de solicitud)
+
+# Ruta para eliminar un turno mediante una solicitud DELETE
+@app.route('/turnos/<id>', methods=['DELETE'])
+def delete_turno(id):
+    try:
+        turno = Turno.query.get(id)
+
+        # Verificar si el turno existe en la base de datos
+        if turno:
+            db.session.delete(turno)
+            db.session.commit()
+            return turno_schema.jsonify(turno)
+        else:
+            return jsonify({'error': 'Turno no encontrado'}), 404  # Devolver código 404 si el turno no existe
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500  # Devolver código 500 si hay un error durante la eliminación
+
 if __name__ == '__main__':
     app.run(debug=True)
 

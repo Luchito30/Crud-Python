@@ -1,8 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Editar Producto</title>
+    <title>Editar Turno</title>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- SweetAlert2 -->
@@ -15,48 +16,56 @@
 
 <body>
     <header id="header">
-        <!-- place navbar here -->
+        <!-- Coloca la barra de navegación aquí -->
     </header>
     <main>
         <div class="container" id="app">
             <form style="background-color: aliceblue; margin:10px auto; width: 400px; padding: 20px;">
-                <h2>Editar Producto</h2>
+                <h2>Editar Turno</h2>
                 <div class="mb-3">
                     <label for="id">Id</label>
                     <input type="number" name="id" id="id" disabled v-model="id">
                 </div>
                 <div class="mb-3">
-                    <label for="nombre_producto">Nombre del Producto</label>
-                    <input type="text" name="nombre_producto" id="nombre_producto" v-model="nombre_producto">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" name="fecha" id="fecha" v-model="fecha">
                 </div>
                 <div class="mb-3">
-                    <label for="descripcion_producto">Descripción del Producto</label>
-                    <input type="text" name="descripcion_producto" id="descripcion_producto"
-                        v-model="descripcion_producto">
+                    <label for="hora">Hora</label>
+                    <input type="time" name="hora" id="hora" v-model="hora">
                 </div>
                 <div class="mb-3">
-                    <label for="categoria">Categoría</label>
-                    <input type="text" name="categoria" id="categoria" v-model="categoria">
+                    <label for="paciente_nombre">Nombre del Paciente</label>
+                    <input type="text" name="paciente_nombre" id="paciente_nombre" v-model="paciente_nombre">
                 </div>
                 <div class="mb-3">
-                    <label for="proveedor">Proveedor</label>
-                    <input type="text" name="proveedor" id="proveedor" v-model="proveedor">
+                    <label for="especialidad">Especialidad</label>
+                    <input type="text" name="especialidad" id="especialidad" v-model="especialidad">
                 </div>
                 <div class="mb-3">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="number" name="cantidad" id="cantidad" v-model="cantidad">
+                    <label for="estado">Estado</label>
+                    <select name="estado" id="estado" v-model="estado">
+                        <option value="Programado">Programado</option>
+                        <option value="En curso">En curso</option>
+                        <option value="Completado">Completado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
                 </div>
                 <div class="mb-3">
-                    <label for="precio_unitario">Precio Unitario</label>
-                    <input type="number" name="precio_unitario" id="precio_unitario" v-model="precio_unitario">
+                    <label for="notas">Notas</label>
+                    <textarea name="notas" id="notas" v-model="notas"></textarea>
+                </div>
+                <!-- Mostrar mensaje de error si el turno ya está ocupado -->
+                <div v-if="error" class="alert alert-danger" role="alert">
+                    {{ errorMessage }}
                 </div>
                 <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar</button>
-                <a class="btn btn-secondary" href="productos.html">Cancelar</a>
+                <a class="btn btn-secondary" href="turnos.html">Cancelar</a>
             </form>
         </div>
     </main>
     <footer>
-        <!-- place footer here -->
+        <!-- Coloca el pie de página aquí -->
     </footer>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -67,7 +76,8 @@
         crossorigin="anonymous"></script>
     <script src="../Public/javascript/header.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="../Public/javascript/producto_editar.js"></script>
+    <!-- Agrega el script de turno_editar.js o el que estés utilizando -->
+    <script src="../Public/javascript/turno_editar.js"></script>
 </body>
 
 </html>

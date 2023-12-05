@@ -226,16 +226,13 @@ def create_turno():
     try:
         json_data = request.get_json()
         fecha = datetime.datetime.strptime(json_data['fecha'], '%Y-%m-%d').date()
-        hora = datetime.datetime.strptime(json_data['hora'], '%H:%M').time()  # Modificado aquí
+        hora = datetime.datetime.strptime(json_data['hora'], '%H:%M').time()
         paciente_nombre = json_data['paciente_nombre']
         especialidad = json_data['especialidad']
         estado = json_data['estado']
         notas = json_data['notas']
 
-        # Validar horario y disponibilidad del turno
-        if not validar_horario(fecha, hora) or turno_ocupado(fecha, hora):
-            return jsonify({'error': 'Horario no válido o turno ya ocupado'}), 400
-
+    
         nuevo_turno = Turno(
             fecha=fecha,
             hora=hora,
@@ -262,7 +259,7 @@ def update_turno(id):
         if turno:
             json_data = request.get_json()
             turno.fecha = datetime.datetime.strptime(json_data.get('fecha', str(turno.fecha)), '%Y-%m-%d').date()
-            turno.hora = datetime.datetime.strptime(json_data.get('hora', str(turno.hora)), '%H:%M:%S').time()
+            turno.hora = datetime.datetime.strptime(json_data.get('hora', str(turno.hora)), '%H:%M').time()
             turno.paciente_nombre = json_data.get('paciente_nombre', turno.paciente_nombre)
             turno.especialidad = json_data.get('especialidad', turno.especialidad)
             turno.estado = json_data.get('estado', turno.estado)

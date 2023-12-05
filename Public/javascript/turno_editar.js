@@ -26,8 +26,8 @@ createApp({
                 .then(data => {
                     console.log(data);
                     this.id = data.id;
-                    this.fecha = data.fecha;
-                    this.hora = data.hora;
+                    this.fecha = data.fecha;  // Asigna directamente sin usar formatDate
+                    this.hora = data.hora;    // Asigna directamente sin usar formatTime
                     this.paciente_nombre = data.paciente_nombre;
                     this.especialidad = data.especialidad;
                     this.estado = data.estado;
@@ -37,6 +37,28 @@ createApp({
                     console.error(err);
                     this.error = true;
                 });
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate() + 1 ;
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            // Agregar ceros principales si es necesario
+            const formattedDay = day < 10 ? `0${day}` : day;
+            const formattedMonth = month < 10 ? `0${month}` : month;
+
+            return `${formattedDay}-${formattedMonth}-${year}`;
+        },
+        formatTime(timeString) {
+            // Obtener solo las horas y los minutos
+            const [hours, minutes] = timeString.split(':');
+
+            // Formatear la hora y los minutos
+            const formattedHours = hours.length === 1 ? `0${hours}` : hours;
+            const formattedMinutes = minutes.length === 1 ? `0${minutes}` : minutes;
+
+            return `${formattedHours}:${formattedMinutes}`;
         },
         modificar() {
             let turno = {

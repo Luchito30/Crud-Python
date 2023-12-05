@@ -1,73 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Editar Producto</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Public/stylesheet/style.css">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../Public/stylesheet/style.css" />
+  </head>
 
-<body>
+  <body>
     <header id="header">
-        <!-- place navbar here -->
+      <!-- place navbar here -->
     </header>
     <main>
-        <div class="container" id="app">
-            <form style="background-color: aliceblue; margin:10px auto; width: 400px; padding: 20px;">
-                <h2>Editar Producto</h2>
-                <div class="mb-3">
-                    <label for="id">Id</label>
-                    <input type="number" name="id" id="id" disabled v-model="id">
-                </div>
-                <div class="mb-3">
-                    <label for="nombre_producto">Nombre del Producto</label>
-                    <input type="text" name="nombre_producto" id="nombre_producto" v-model="nombre_producto">
-                </div>
-                <div class="mb-3">
-                    <label for="descripcion_producto">Descripción del Producto</label>
-                    <input type="text" name="descripcion_producto" id="descripcion_producto"
-                        v-model="descripcion_producto">
-                </div>
-                <div class="mb-3">
-                    <label for="categoria">Categoría</label>
-                    <input type="text" name="categoria" id="categoria" v-model="categoria">
-                </div>
-                <div class="mb-3">
-                    <label for="proveedor">Proveedor</label>
-                    <input type="text" name="proveedor" id="proveedor" v-model="proveedor">
-                </div>
-                <div class="mb-3">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="number" name="cantidad" id="cantidad" v-model="cantidad">
-                </div>
-                <div class="mb-3">
-                    <label for="precio_unitario">Precio Unitario</label>
-                    <input type="number" name="precio_unitario" id="precio_unitario" v-model="precio_unitario">
-                </div>
-                <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar</button>
-                <a class="btn btn-secondary" href="productos.html">Cancelar</a>
-            </form>
-        </div>
+      <div class="container" id="app">
+        <form
+          style="
+            background-color: #f5f5f5;
+            margin: 40px auto;
+            width: 500px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 0px #000000;
+          "
+        >
+          <h2>Editar Producto</h2>
+          <div class="mb-3">
+            <label for="id">Id</label>
+            <input type="number" name="id" id="id" disabled v-model="id" />
+          </div>
+          <div class="mb-3">
+            <label for="nombre_producto">Nombre del Producto</label>
+            <input
+              type="text"
+              name="nombre_producto"
+              id="nombre_producto"
+              v-model="nombre_producto"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="descripcion_producto">Descripción del Producto</label>
+            <input
+              type="text"
+              name="descripcion_producto"
+              id="descripcion_producto"
+              v-model="descripcion_producto"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="categoria">Categoría</label>
+            <input
+              type="text"
+              name="categoria"
+              id="categoria"
+              v-model="categoria"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="proveedor">Proveedor</label>
+            <input
+              type="text"
+              name="proveedor"
+              id="proveedor"
+              v-model="proveedor"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="cantidad">Cantidad</label>
+            <input
+              type="number"
+              name="cantidad"
+              id="cantidad"
+              v-model="cantidad"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="precio_unitario">Precio Unitario</label>
+            <input
+              type="number"
+              name="precio_unitario"
+              id="precio_unitario"
+              v-model="precio_unitario"
+            />
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              v-on:click="modificar()"
+            >
+              Grabar
+            </button>
+            <a class="btn btn-outline-dark" href="productos.html">Cancelar</a>
+          </div>
+        </form>
+      </div>
     </main>
     <footer>
-        <!-- place footer here -->
+      <!-- place footer here -->
     </footer>
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
     <script src="../Public/javascript/header.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="../Public/javascript/producto_editar.js"></script>
-</body>
-
+  </body>
 </html>

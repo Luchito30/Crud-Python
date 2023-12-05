@@ -1,80 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Nuevo Turno</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <link rel="stylesheet" href="../Public/stylesheet/style.css">
-</head>
+    <link rel="stylesheet" href="../Public/stylesheet/style.css" />
+  </head>
 
-<body>
+  <body>
     <header id="header">
-        <!-- Coloca la barra de navegación aquí -->
+      <!-- Coloca la barra de navegación aquí -->
     </header>
     <main>
-        <div class="container" id="app">
-            <form style="background-color: aliceblue; margin: 10px auto; width: 400px; padding: 20px;">
-                <h1>Alta de Turno</h1>
-                <div class="mb-3">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" name="fecha" id="fecha" v-model="fecha">
-                </div>
-                <div class="mb-3">
-                    <label for="hora">Hora</label>
-                    <input type="time" name="hora" id="hora" v-model="hora">
-                </div>
-                <div class="mb-3">
-                    <label for="paciente_nombre">Nombre del Paciente</label>
-                    <input type="text" name="paciente_nombre" id="paciente_nombre" v-model="paciente_nombre">
-                </div>
-                <div class="mb-3">
-                    <label for="especialidad">Especialidad</label>
-                    <input type="text" name="especialidad" id="especialidad" v-model="especialidad">
-                </div>
-                <div class="mb-3">
-                    <label for="estado">Estado</label>
-                    <select name="estado" id="estado" v-model="estado">
-                        <option value="Programado">Programado</option>
-                        <option value="En curso">En curso</option>
-                        <option value="Completado">Completado</option>
-                        <option value="Cancelado">Cancelado</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="notas">Notas</label>
-                    <textarea name="notas" id="notas" v-model="notas"></textarea>
-                </div>
-                <!-- Mostrar mensaje de error si el turno ya está ocupado -->
-                <div v-if="error" class="alert alert-danger" role="alert">
-                    {{ errorMessage }}
-                </div>
-                <!-- Otros campos del formulario -->
-                <button type="button" class="btn btn-success" v-on:click="grabar()">Grabar</button>
-                <a class="btn btn-secondary" href="./turnos.html">Cancelar</a>
-            </form>
-        </div>
+      <div class="container" id="app">
+        <form
+          style="
+            background-color: #f5f5f5;
+            margin: 40px auto;
+            width: 500px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 0px #000000;
+          "
+        >
+          <h1>Alta de Turno</h1>
+          <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input
+              type="date"
+              class="form-control"
+              name="fecha"
+              id="fecha"
+              v-model="fecha"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="hora">Hora</label>
+            <input type="time" name="hora" id="hora" v-model="hora" />
+          </div>
+          <div class="mb-3">
+            <label for="paciente_nombre">Nombre del Paciente</label>
+            <input
+              type="text"
+              name="paciente_nombre"
+              id="paciente_nombre"
+              v-model="paciente_nombre"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="especialidad">Especialidad</label>
+            <input
+              type="text"
+              name="especialidad"
+              id="especialidad"
+              v-model="especialidad"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="estado">Estado</label>
+            <select name="estado" id="estado" v-model="estado">
+              <option value="Programado">Programado</option>
+              <option value="En curso">En curso</option>
+              <option value="Completado">Completado</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="notas">Notas</label>
+            <textarea name="notas" id="notas" v-model="notas"></textarea>
+          </div>
+          <!-- Mostrar mensaje de error si el turno ya está ocupado -->
+          <div v-if="error" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
+          <!-- Otros campos del formulario -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button
+              type="button"
+              class="btn btn-outline-success"
+              v-on:click="grabar()"
+            >
+              Grabar
+            </button>
+            <a class="btn btn-outline-dark" href="./turnos.html">Cancelar</a>
+          </div>
+        </form>
+      </div>
     </main>
     <footer>
-        <!-- Coloca el pie de página aquí -->
+      <!-- Coloca el pie de página aquí -->
     </footer>
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
     <script src="../Public/javascript/header.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <!-- Agrega el script de turnos.js o el que estés utilizando -->
     <script src="../Public/javascript/turnos.js"></script>
-</body>
-
+  </body>
 </html>

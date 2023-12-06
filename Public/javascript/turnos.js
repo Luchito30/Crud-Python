@@ -6,6 +6,7 @@ createApp({
             turnos: [],
             url: 'http://127.0.0.1:5000/turnos',
             error: false,
+            cargando: true,
             errorMessage: '',
             id: 0,
             fecha: new Date().toISOString().split('T')[0],  // Valor predeterminado para la fecha (hoy)
@@ -41,14 +42,14 @@ createApp({
         },
         turnosPasados() {
             const today = new Date();
-            
+
             // Filtrar los turnos pasados
             const turnosPasados = this.turnos.filter(turno => {
                 const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
                 const turnoFechaHora = new Date(turnoAnio, turnoMes - 1, turnoDia, parseInt(turno.hora.split(':')[0]), parseInt(turno.hora.split(':')[1]));
                 return turnoFechaHora < today;  // Comparar directamente con el objeto Date actual
             });
-        
+
             // Formatear las fechas en el resultado al formato "día, mes y año"
             const turnosPasadosFormateados = turnosPasados.map(turno => {
                 const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
@@ -58,9 +59,9 @@ createApp({
                     hora: this.formatTime(turno.hora),
                 };
             });
-        
+
             return turnosPasadosFormateados;
-        },        
+        },
         turnoProximo() {
             const today = new Date();
             const todayDateString = today.toISOString().split('T')[0];
@@ -71,8 +72,11 @@ createApp({
         
             console.log('Turnos:', this.turnos);
         
+            // Convertir el objeto a un array de turnos
+            const turnosArray = Object.values(this.turnos);
+        
             // Filtrar los turnos futuros que aún no han ocurrido
-            const turnosFuturos = this.turnos.filter(turno => {
+            const turnosFuturos = turnosArray.filter(turno => {
                 const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
                 const turnoFechaHora = new Date(turnoAnio, turnoMes - 1, turnoDia, parseInt(turno.hora.split(':')[0]), parseInt(turno.hora.split(':')[1]));
                 return turnoFechaHora > today;  // Comparar directamente con el objeto Date actual
@@ -81,16 +85,20 @@ createApp({
             console.log('Turnos Futuros:', turnosFuturos);
         
             // Ordenar los turnos futuros por fecha y hora en orden ascendente
-            const turnosOrdenados = turnosFuturos.sort((a, b) => {
-                const fechaHoraA = new Date(`${a.fecha}T${a.hora}`);
-                const fechaHoraB = new Date(`${b.fecha}T${b.hora}`);
-                return fechaHoraA - fechaHoraB;  // Comparar objetos Date
-            });
+            const turnosOrdenados = turnosFuturos.map(turno => ({ ...turno }))
+                .sort((a, b) => {
+                    // Convertir las fechas a un formato numérico para facilitar la comparación
+                    const fechaHoraA = parseInt(`${a.fecha.replace(/-/g, '')}${a.hora.replace(':', '')}`);
+                    const fechaHoraB = parseInt(`${b.fecha.replace(/-/g, '')}${b.hora.replace(':', '')}`);
+                    
+                    return fechaHoraA - fechaHoraB;
+                });
+        
+            console.log(turnosOrdenados);
         
             // Devolver el primer turno (el más próximo)
             return turnosOrdenados.length > 0 ? turnosOrdenados[0] : null;
-        }
-        
+        },        
     },
     methods: {
         fetchData(url) {

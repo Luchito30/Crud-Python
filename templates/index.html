@@ -24,9 +24,9 @@
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            width: 80%;
             max-width: 800px;
             margin: 20px;
+            width: 35%;
         }
 
         #header {
@@ -90,6 +90,7 @@
         #weather {
             text-align: center;
             margin-top: 20px;
+            margin-bottom: 60px;
         }
 
         #weather input {
@@ -113,8 +114,8 @@
             <p>¡Hola! selecciona la opción deseada.</p>
         </div>
         <div id="options">
-            <div class="dashboard-option" @click="goTo('productos')">Explorar Productos</div>
-            <div class="dashboard-option" @click="goTo('turnos')">Gestionar Turnos</div>
+            <div class="dashboard-option" @click="goTo('Productos')">Explorar Productos</div>
+            <div class="dashboard-option" @click="goTo('Turnos')">Gestionar Turnos</div>
         </div>
 
         <div id="clock">
@@ -154,25 +155,23 @@
                 },
                 goTo(section) {
                     Swal.fire({
-                        title: `Ir a la sección de ${section}`,
-                        icon: "info",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Sí, continuar"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Puedes agregar redirección o realizar otras acciones aquí
-                            window.location.href = `./${section}.html`;
-                        }
+                        position: "center",
+                        icon: "success",
+                        title: `Ingresando a ${section}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Redirige o realiza otras acciones después de que el usuario ve el mensaje de éxito
+                        window.location.href = `./${section}.html`
                     });
                 },
                 async searchWeather() {
                     if (!this.userCity) {
                         Swal.fire({
-                            title: 'Ingrese una ciudad',
-                            icon: 'warning',
-                            timer: 2000,
+                            title: 'Bienvenido a PET CARE',
+                            icon: 'info',
+                            text: "Ingrese su ciudad para ver la Temperatura",
+                            timer: 5000,
                             timerProgressBar: true,
                         });
                         return;

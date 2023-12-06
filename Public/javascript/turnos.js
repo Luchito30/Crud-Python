@@ -14,23 +14,62 @@ createApp({
             especialidad: '',
             estado: 'Programado',  // Valor predeterminado para el estado
             notas: '',
+            currentPage: 1,
+            itemsPerPage: 10,
+            totalItems: 0,
         };
+    },
+    computed: {
+        totalPages() {
+            return Math.ceil(this.totalItems / this.itemsPerPage);
+        },
+        paginatedTurnos() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            return this.turnos.slice(startIndex, endIndex);
+        },
+        displayedPages() {
+            const maxDisplayedPages = 5;
+            const startPage = Math.max(1, this.currentPage - Math.floor(maxDisplayedPages / 2));
+            const endPage = Math.min(this.totalPages, startPage + maxDisplayedPages - 1);
+
+            const pages = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+            return pages;
+        },
     },
     methods: {
         fetchData(url) {
+            console.log('Fetching data from:', url);
             fetch(url)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    this.turnos = data.map(turno => ({
+                    this.totalItems = data.totalItems;
+                    this.turnos = data.turnos.map(turno => ({
                         ...turno,
                         fecha: this.formatDate(turno.fecha),
                         hora: this.formatTime(turno.hora),
                     }));
+                    this.cargando = false;
                 })
                 .catch(err => {
                     console.error(err);
                     this.error = true;
                 });
+        },
+        changePage(page) {
+            console.log(`Changing to page ${page}`);
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+                this.fetchData(`${this.url}?page=${page}&per_page=${this.itemsPerPage}`);
+            }
         },
         formatDate(dateString) {
             const date = new Date(dateString);
@@ -168,6 +207,6 @@ createApp({
         },
     },
     created() {
-        this.fetchData(this.url);
+        this.fetchData(`${this.url}?page=${this.currentPage}&per_page=${this.itemsPerPage}`);
     }
 }).mount('#app');

@@ -47,18 +47,30 @@ productos_schema = ProductoSchema(many=True)
 with app.app_context():
     db.create_all()
 
-#Endpoint Get
+# Endpoint Get
 @app.route('/productos', methods=['GET'])
 def get_all_productos():
     try:
-        productos = Producto.query.all()
-        if productos:
+        page = request.args.get('page', default=1, type=int)
+        per_page = request.args.get('per_page', default=10, type=int)
+
+        productos = Producto.query.paginate(page=page, per_page=per_page, error_out=False)
+        total_items = productos.total
+
+        if productos.items:
             # Convertir la lista de productos a un formato JSON y devolverlo como respuesta
-            return jsonify(productos_schema.dump(productos))
+            return jsonify({
+                'total_items': total_items,
+                'productos': productos_schema.dump(productos.items),
+            })
         else:
-            return jsonify([])  # Si no hay productos, devolver una lista vacía
+            return jsonify({
+                'total_items': 0,
+                'productos': [],
+            })
 
     except Exception as e:
+        print(e)  # Imprime el error en la consola
         return jsonify({'error': str(e)}), 500
 
 # Endpoint GET por ID para obtener un producto específico
@@ -177,12 +189,25 @@ with app.app_context():
 @app.route('/turnos', methods=['GET'])
 def get_all_turnos():
     try:
-        turnos = Turno.query.all()
+        page = int(request.args.get('page', 1))
+        per_page = int(request.args.get('per_page', 10))
+
+        turnos_pagination = Turno.query.paginate(page=page, per_page=per_page)
+        total_items = turnos_pagination.total
+
+        turnos = turnos_pagination.items
+
         if turnos:
             # Convertir la lista de turnos a un formato JSON y devolverlo como respuesta
-            return jsonify(turnos_schema.dump(turnos))
+            return jsonify({
+                'totalItems': total_items,
+                'turnos': turnos_schema.dump(turnos)
+            })
         else:
-            return jsonify([])  # Si no hay turnos, devolver una lista vacía
+            return jsonify({
+                'totalItems': 0,
+                'turnos': []
+            })  # Si no hay turnos, devolver una lista vacía
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -259,7 +284,10 @@ def update_turno(id):
         if turno:
             json_data = request.get_json()
             turno.fecha = datetime.datetime.strptime(json_data.get('fecha', str(turno.fecha)), '%Y-%m-%d').date()
-            turno.hora = datetime.datetime.strptime(json_data.get('hora', str(turno.hora)), '%H:%M').time()
+            
+            # Modifica la línea para manejar la cadena de tiempo directamente
+            turno.hora = json_data.get('hora', str(turno.hora))
+
             turno.paciente_nombre = json_data.get('paciente_nombre', turno.paciente_nombre)
             turno.especialidad = json_data.get('especialidad', turno.especialidad)
             turno.estado = json_data.get('estado', turno.estado)

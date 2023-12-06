@@ -9,17 +9,29 @@ document.getElementById("header").innerHTML = `
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav me-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link header__menu" href="../../templates/productos.html" aria-current="page">PRODUCTOS <span class="visually-hidden">(current)</span></a>
+                        <a class="nav-link header__menu" href="./productos.html" aria-current="page">PRODUCTOS <span class="visually-hidden">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link header__menu" href="../../templates/turnos.html">TURNOS</a>
+                        <a class="nav-link header__menu" href="./turnos.html">TURNOS</a>
                     </li>
                 </ul>
-                <form class="d-flex my-2 my-lg-0 header__form">
-                    <input class="form-control me-sm-2" type="text" placeholder="Buscar...">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
+                <span class="nav-link header__hora" id="horaActual">${obtenerFechaHoraActual()}</span>
             </div>
         </div>
     </nav>
 `;
+
+function actualizarHora() {
+    const horaElemento = document.getElementById("horaActual");
+    horaElemento.textContent = obtenerFechaHoraActual();
+}
+
+// Actualizar la hora cada segundo
+setInterval(actualizarHora, 1000);
+
+function obtenerFechaHoraActual() {
+    const fechaHora = new Date();
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
+    return fechaHora.toLocaleDateString('es-ES', opciones);
+}
+

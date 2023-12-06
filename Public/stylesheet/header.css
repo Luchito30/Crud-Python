@@ -15,3 +15,9 @@
 .header__form{
     width: 50%;
 }
+
+.header__hora{
+    color: wheat;
+    font-size: 17px;
+    filter: drop-shadow(2px 4px 4px black);
+}

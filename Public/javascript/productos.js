@@ -17,6 +17,8 @@ createApp({
             currentPage: 1,
             itemsPerPage: 10,
             totalItems: 0, 
+            order_by: 'id', // Nuevo campo para el criterio de orden
+            order_dir: 'asc', // Nuevo campo para la dirección de orden
         };
     },
     computed: {
@@ -40,11 +42,32 @@ createApp({
             }
             return pages;
         },
+        productosOrdenadosPorCantidad() {
+            return this.productos.slice().sort((a, b) => b.cantidad - a.cantidad);
+        },
+        productoConMayorCantidad() {
+            if (this.productos.length > 0) {
+                return this.productosOrdenadosPorCantidad[0];
+            } else {
+                return null;
+            }
+        },
+        productosOrdenadosPorPrecio() {
+            return this.productos.slice().sort((a, b) => b.precio_unitario - a.precio_unitario);
+        },
+        productoConMayorPrecio() {
+            if (this.productos.length > 0) {
+                return this.productosOrdenadosPorPrecio[0];
+            } else {
+                return null;
+            }
+        },
     },
     methods: {
-        fetchData(url) {
-            console.log('Fetching data from:', url);
-            fetch(url)
+        fetchData() {
+            const fullUrl = `${this.url}?page=${this.currentPage}&per_page=${this.itemsPerPage}&order_by=${this.order_by}&order_dir=${this.order_dir}`;
+        
+            fetch(fullUrl)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -62,10 +85,9 @@ createApp({
                 });
         },
         changePage(page) {
-            console.log(`Changing to page ${page}`);
             if (page >= 1 && page <= this.totalPages) {
                 this.currentPage = page;
-                this.fetchData(`${this.url}?page=${page}&per_page=${this.itemsPerPage}`);
+                this.fetchData();
             }
         },
         eliminar(id) {
@@ -127,7 +149,6 @@ createApp({
                 headers: { 'Content-Type': 'application/json' },
                 redirect: 'follow',
             };
-
             fetch(this.url, options)
                 .then(response => response.json())
                 .then(() => {
@@ -151,8 +172,31 @@ createApp({
                     });
                 });
         },
+        encontrarProductoConMayorCantidad() {
+            if (this.productos.length > 0) {
+                // Ordena los productos por cantidad de forma descendente
+                const productosOrdenados = this.productos.slice().sort((a, b) => b.cantidad - a.cantidad);
+                // Toma el primer producto (con la mayor cantidad)
+                this.productoConMayorCantidad = productosOrdenados[0];
+                console.log('Producto con mayor cantidad:', this.productoConMayorCantidad);
+            }
+        },
+        ordenarTabla(criterio) {
+            // Cambia el orden actual al hacer clic
+            this.order_by = criterio;
+            this.order_dir = this.order_dir === 'asc' ? 'desc' : 'asc';
+        
+            // Realiza la ordenación directamente en la vista
+            if (criterio === 'cantidad') {
+                this.productos.sort((a, b) => (this.order_dir === 'asc' ? a.cantidad - b.cantidad : b.cantidad - a.cantidad));
+            } else if (criterio === 'precio_unitario') {
+                this.productos.sort((a, b) => (this.order_dir === 'asc' ? a.precio_unitario - b.precio_unitario : b.precio_unitario - a.precio_unitario));
+            }
+            this.fetchData();
+        },
+        
     },
     created() {
-        this.fetchData(`${this.url}?page=${this.currentPage}&per_page=${this.itemsPerPage}`);
-    }
+        this.fetchData();
+    },
 }).mount('#app');

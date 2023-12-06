@@ -48,20 +48,29 @@ with app.app_context():
     db.create_all()
 
 # Endpoint Get
+from sqlalchemy import func
+
+# Endpoint Get
 @app.route('/productos', methods=['GET'])
 def get_all_productos():
     try:
         page = request.args.get('page', default=1, type=int)
         per_page = request.args.get('per_page', default=10, type=int)
+        order_by = request.args.get('order_by', default='id', type=str)
+        order_dir = request.args.get('order_dir', default='asc', type=str)
 
-        productos = Producto.query.paginate(page=page, per_page=per_page, error_out=False)
-        total_items = productos.total
+        # Ajustamos la consulta para incluir la ordenación
+        order_column = getattr(Producto, order_by)
+        productos_query = Producto.query.order_by(order_column.asc() if order_dir == 'asc' else order_column.desc())
+        productos_query = productos_query.paginate(page=page, per_page=per_page, error_out=False)
 
-        if productos.items:
+        total_items = productos_query.total
+
+        if productos_query.items:
             # Convertir la lista de productos a un formato JSON y devolverlo como respuesta
             return jsonify({
                 'total_items': total_items,
-                'productos': productos_schema.dump(productos.items),
+                'productos': productos_schema.dump(productos_query.items),
             })
         else:
             return jsonify({
@@ -72,6 +81,7 @@ def get_all_productos():
     except Exception as e:
         print(e)  # Imprime el error en la consola
         return jsonify({'error': str(e)}), 500
+
 
 # Endpoint GET por ID para obtener un producto específico
 @app.route('/productos/<id>', methods=['GET'])

@@ -39,6 +39,56 @@ createApp({
             }
             return pages;
         },
+        turnosPasados() {
+            const today = new Date();
+            
+            // Filtrar los turnos pasados
+            const turnosPasados = this.turnos.filter(turno => {
+                const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
+                const turnoFecha = new Date(turnoAnio, turnoMes - 1, turnoDia);
+                return turnoFecha < today;  // Comparar directamente con el objeto Date actual
+            });
+        
+            // Formatear las fechas en el resultado
+            const turnosPasadosFormateados = turnosPasados.map(turno => ({
+                ...turno,
+                fecha: this.formatDate(turno.fecha),
+                hora: this.formatTime(turno.hora),
+            }));
+        
+            return turnosPasadosFormateados;
+        },
+        
+        turnoProximo() {
+            const today = new Date();
+            const todayDateString = today.toISOString().split('T')[0];
+            const todayTimeString = today.toTimeString().slice(0, 5);
+        
+            console.log('Today Date String:', todayDateString);
+            console.log('Today Time String:', todayTimeString);
+        
+            console.log('Turnos:', this.turnos);
+        
+            // Filtrar los turnos futuros que aún no han ocurrido
+            const turnosFuturos = this.turnos.filter(turno => {
+                const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
+                const turnoFechaHora = new Date(turnoAnio, turnoMes - 1, turnoDia, parseInt(turno.hora.split(':')[0]), parseInt(turno.hora.split(':')[1]));
+                return turnoFechaHora > today;  // Comparar directamente con el objeto Date actual
+            });
+        
+            console.log('Turnos Futuros:', turnosFuturos);
+        
+            // Ordenar los turnos futuros por fecha y hora en orden ascendente
+            const turnosOrdenados = turnosFuturos.sort((a, b) => {
+                const fechaHoraA = new Date(`${a.fecha}T${a.hora}`);
+                const fechaHoraB = new Date(`${b.fecha}T${b.hora}`);
+                return fechaHoraA - fechaHoraB;  // Comparar objetos Date
+            });
+        
+            // Devolver el primer turno (el más próximo)
+            return turnosOrdenados.length > 0 ? turnosOrdenados[0] : null;
+        }
+        
     },
     methods: {
         fetchData(url) {
@@ -147,7 +197,7 @@ createApp({
                         text: "Por favor, inténtelo de nuevo."
                     });
                 });
-        },        
+        },
         grabar() {
             // Si la fecha y hora ya están ocupadas, muestra un mensaje de error
             if (this.turnoExistente()) {
@@ -158,7 +208,7 @@ createApp({
                 // Pero primero, resetea el estado de error
                 this.error = false;
                 this.errorMessage = '';
-        
+
                 this.registrarTurno();
             }
         },

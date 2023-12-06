@@ -38,3 +38,36 @@
 .boton__actions{
     filter: drop-shadow(2px 4px 3px black);
 }
+
+.main__conteiner-description{
+    display: flex;
+    justify-content: space-between;
+    color: wheat;
+    font-size: 18px;
+    font-weight: 700;
+    filter: drop-shadow(2px 4px 3px black);
+}
+
+.main__text-end{
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+    gap: 50px;
+}
+
+.turno--proximo{
+    margin-top: 60px;
+    justify-content: center !important;
+    gap: 80px;
+}
+
+.main__listadoturno{
+    display: flex;
+    margin-top: 50px;
+    gap: 80px;
+    margin-bottom: 60px;
+}
+
+.main__containerto{
+    justify-content: center !important;
+}

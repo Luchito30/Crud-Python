@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Lista de Productos</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://kit.fontawesome.com/2d353964a9.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="../Public/stylesheet/style.css">
 </head>
+
 <body>
     <header id="header">
         <!-- Coloca tu barra de navegación aquí -->
@@ -17,7 +20,8 @@
         <div id="app" class="container">
             <h1 class="main__titulo">PRODUCTOS</h1>
             <br>
-            <a class="btn btn-success fw-bold d-flex flex-column align-items-center justify-content-center boton__nuevo" href="producto_nuevo.html">Nuevo</a>
+            <a class="btn btn-success fw-bold d-flex flex-column align-items-center justify-content-center boton__nuevo"
+                href="producto_nuevo.html">Nuevo</a>
             <br><br>
             <div v-if="error">
                 <p class="main__cargando_p">Lo sentimos, ha ocurrido un error.</p>
@@ -28,6 +32,23 @@
                     <p class="main__cargando_p">Cargando...</p>
                 </section>
                 <section v-else>
+                    <div class="main__conteiner-description">
+                        <p class="main__total-productos">Total de Productos: {{ totalItems }}</p>
+                        <div v-if="productoConMayorCantidad">
+                            <p class="main__producto-mayor-cantidad">Producto con Mayor Cantidad:</p>
+                            <p>{{ productoConMayorCantidad.nombre_producto }} - Cantidad: {{
+                                productoConMayorCantidad.cantidad }}</p>
+                        </div>
+                        <div v-if="productoConMayorPrecio">
+                            <p class="main__producto-mayor-precio">Producto con Mayor Precio:</p>
+                            <p>{{ productoConMayorPrecio.nombre_producto }} - Precio: ${{
+                                productoConMayorPrecio.precio_unitario }}</p>
+                        </div>
+                    </div>
+                    <div class="main__text-end">
+                        <button class="btn btn-light me-2" @click="ordenarTabla('cantidad')">Ordenar por Cantidad</button>
+                        <button class="btn btn-light" @click="ordenarTabla('precio_unitario')">Ordenar por Precio</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered talbe__conteiner">
                             <thead>
@@ -53,8 +74,12 @@
                                     <td class="text-center talbe-contenido">${{ producto.precio_unitario }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <a class="btn btn-primary boton__actions" :href="'producto_update.html?id=' + producto.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <button type="button" class="btn btn-danger ms-2 boton__actions" v-on:click="eliminar(producto.id)"><i class="fa-solid fa-trash"></i></button>
+                                            <a class="btn btn-primary boton__actions"
+                                                :href="'producto_update.html?id=' + producto.id"><i
+                                                    class="fa-solid fa-pen-to-square"></i></a>
+                                            <button type="button" class="btn btn-danger ms-2 boton__actions"
+                                                v-on:click="eliminar(producto.id)"><i
+                                                    class="fa-solid fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -70,7 +95,8 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <li v-for="page in totalPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+                            <li v-for="page in totalPages" :key="page" class="page-item"
+                                :class="{ active: currentPage === page }">
                                 <a class="page-link" @click="changePage(page)">{{ page }}</a>
                             </li>
                             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
@@ -80,17 +106,22 @@
                             </li>
                         </ul>
                     </nav>
-                </section>    
+                </section>
             </div>
         </div>
     </main>
     <footer>
         <!-- Coloca tu pie de página aquí -->
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="../Public/javascript/header.js"></script>
     <script src="../Public/javascript/productos.js"></script>
 </body>
+
 </html>

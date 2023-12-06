@@ -27,6 +27,35 @@
                     <div class="loader text-center"></div>
                     <p class="main__cargando_p">Cargando...</p>
                 </section>
+                <section>
+                    <h2 class="main__titulo">Turno Próximo</h2>
+                    <div v-if="turnoProximo" class="main__conteiner-description turno--proximo">
+                        <!-- Mostrar detalles del turno próximo aquí -->
+                        <p>ID: {{ turnoProximo.id }}</p>
+                        <p>{{ turnoProximo.fecha }} - {{ turnoProximo.hora }}</p>
+                        <p>{{ turnoProximo.paciente_nombre }} - {{ turnoProximo.especialidad }}</p>
+                    </div>
+                    <div v-else>
+                        <p>No hay turno próximo.</p>
+                    </div>
+                </section>                        
+                <section>
+                    <h2 class="main__titulo">Turnos Pasados</h2>
+                    <div v-if="turnosPasados.length > 0" class="main__conteiner-description main__containerto">
+                        <!-- Mostrar detalles de los turnos pasados aquí -->
+                        <ul class="main__listadoturno">
+                            <li v-for="turno in turnosPasados" :key="turno.id">
+                                <p>ID: {{ turno.id }}</p>
+                                <p>{{ turno.fecha }} - {{ turno.hora }}</p>
+                                <p>{{ turno.paciente_nombre }} - {{ turno.especialidad }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-else>
+                        <p>No hay turnos vencidos.</p>
+                    </div>
+                </section>
+                
                 <section v-else>
                     <div class="table-responsive">
                         <table class="table table-bordered talbe__conteiner">

@@ -45,20 +45,22 @@ createApp({
             // Filtrar los turnos pasados
             const turnosPasados = this.turnos.filter(turno => {
                 const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
-                const turnoFecha = new Date(turnoAnio, turnoMes - 1, turnoDia);
-                return turnoFecha < today;  // Comparar directamente con el objeto Date actual
+                const turnoFechaHora = new Date(turnoAnio, turnoMes - 1, turnoDia, parseInt(turno.hora.split(':')[0]), parseInt(turno.hora.split(':')[1]));
+                return turnoFechaHora < today;  // Comparar directamente con el objeto Date actual
             });
         
-            // Formatear las fechas en el resultado
-            const turnosPasadosFormateados = turnosPasados.map(turno => ({
-                ...turno,
-                fecha: this.formatDate(turno.fecha),
-                hora: this.formatTime(turno.hora),
-            }));
+            // Formatear las fechas en el resultado al formato "día, mes y año"
+            const turnosPasadosFormateados = turnosPasados.map(turno => {
+                const [turnoDia, turnoMes, turnoAnio] = turno.fecha.split('-');
+                return {
+                    ...turno,
+                    fecha: `${turnoDia}-${turnoMes}-${turnoAnio}`,
+                    hora: this.formatTime(turno.hora),
+                };
+            });
         
             return turnosPasadosFormateados;
-        },
-        
+        },        
         turnoProximo() {
             const today = new Date();
             const todayDateString = today.toISOString().split('T')[0];

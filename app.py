@@ -1,20 +1,111 @@
 # Importación de módulos necesarios
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import Schema, fields, ValidationError
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
+from sqlalchemy import func
+from flask_bcrypt import Bcrypt
 import datetime
 
 # Creación de la aplicación Flask
 app = Flask(__name__)
 CORS(app)  # Permite el acceso desde el frontend al backend
 
+# Establecer la clave secreta de la aplicación
+app.config['SECRET_KEY'] = 'keypetcare'  # Reemplaza con una clave segura y secreta
+
+
 # Configuración de la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/pet_care'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+bcrypt = Bcrypt(app)
+
+# Definición del modelo de datos
+class Rol(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(50), unique=True, nullable=False)
+
+# Definición del modelo de datos
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    rol_id = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False)
+    rol = db.relationship('Rol', backref='usuarios')
+
+# Agregamos un método para establecer la contraseña con bcrypt
+def set_password(self, password):
+    self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+Usuario.set_password = set_password
+
+# Definición del esquema
+class UsuarioSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'user', 'password', 'rol_id')
+
+usuario_schema = UsuarioSchema()
+usuarios_schema = UsuarioSchema(many=True)
+
+# Insertar usuarios de prueba
+with app.app_context():
+    # Eliminar usuario existente con el nombre 'admin'
+    existing_admin = Usuario.query.filter_by(user='admin').first()
+    if existing_admin:
+        db.session.delete(existing_admin)
+        db.session.commit()
+
+    # Insertar el nuevo usuario 'admin'
+    admin_user = Usuario(user='admin', rol_id=1)
+    admin_user.set_password('petcareadmin1')
+    db.session.add(admin_user)
+    db.session.commit()
+
+    # Eliminar usuario existente con el nombre 'Murdoy'
+    existing_user = Usuario.query.filter_by(user='Murdoy').first()
+    if existing_user:
+        db.session.delete(existing_user)
+        db.session.commit()
+
+    # Insertar el nuevo usuario 'Murdoy'
+    new_user = Usuario(user='Murdoy', rol_id=2)
+    new_user.set_password('petcare123')
+    db.session.add(new_user)
+    db.session.commit()
+
+# Endpoint GET para obtener todos los usuarios
+@app.route('/usuarios', methods=['GET'])
+def obtener_usuarios():
+    usuarios = Usuario.query.all()
+    resultado = usuarios_schema.dump(usuarios)
+    return jsonify(resultado)
+
+# Endpoint POST para iniciar sesión
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.get_json()
+        user = data.get('user')
+        password = data.get('password')
+
+        usuario = Usuario.query.filter_by(user=user).first()
+
+        if usuario:
+            print('Stored Password:', usuario.password)
+            if bcrypt.check_password_hash(usuario.password, password):
+                # Guardar información de sesión
+                session['user'] = usuario.user
+                return jsonify({'mensaje': 'Inicio de sesión exitoso'})
+            else:
+                return jsonify({'error': 'Contraseña incorrecta'}), 401
+        else:
+            return jsonify({'error': 'Usuario no encontrado'}), 401
+
+    except Exception as e:
+        return jsonify({'error': f'Error en el servidor: {str(e)}'}), 500
 
 # Definición del modelo de datos
 class Producto(db.Model):
@@ -46,9 +137,6 @@ productos_schema = ProductoSchema(many=True)
 # Creación de la tabla
 with app.app_context():
     db.create_all()
-
-# Endpoint Get
-from sqlalchemy import func
 
 # Endpoint Get
 @app.route('/productos', methods=['GET'])

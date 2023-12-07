@@ -1,0 +1,213 @@
+/*reset*/
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat',sans-serif;
+}
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+/* variables */
+:root{
+    --theme-color: #F7C4B7;
+    --primary-color: gray;
+    --secundary-color: orange;
+    --secundary-color2: #E8E8E8;
+    --text-color: white; 
+	--text-color2: black; 
+    --text-color-inverse: orange;
+    --navbar-shallow-color: hsl(0, 24%, 93%);
+    --menu-mobile-background-color: #F7C4B7;
+}
+
+/* Body */
+/*Banner*/
+#banner{
+    padding: 0 50px;
+    background-image: url(../Img/care-dog2.jpg);
+    height: 45vh;
+    background-size: cover;
+    background-position: center;
+    display: block; 
+    margin: 0 auto;
+}
+#banner::before{
+    content: '';
+    background: rgba(77,77,92,0.6);
+    position: absolute;
+    width: 100%;
+    height: 45vh;
+    left:0
+}
+.contenido-banner{
+	position: relative;
+	color: white;
+	height:100%;
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+}
+.contenido-banner h3{
+	font-size:30px;
+	font-weight: 400;
+	padding: 10px 0px;
+}
+.contenido-banner h3 span{
+	font-weight:600;
+}
+.boton-turnos{
+    text-decoration: none;
+    color: var(--theme-color);
+    font-weight: bold;
+    border: 1px solid var(--theme-color);
+    padding: 20px 40px;
+    align-self: baseline;   
+    transition: all 0.4s;
+}
+
+.boton-turnos:hover{
+    background: var(--primary-color) ;
+}
+
+/* Servicios */
+
+.contenedor-servicios1{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.contenedor-servicios2{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+#servicios img{
+    border-radius: 100%;     
+}
+
+#servicios div{
+    padding: 30px 30px;
+}
+
+#servicios div h4{
+    color:var(--theme-color);
+    font-size: 20px;
+    margin: 15px 0px;
+}
+
+#servicios div p{
+    color:var(--primary-color);
+    font-size: 18px;
+    margin: 15px 0px;
+}
+
+.img:hover {filter: opacity(.5);
+    box-shadow: 0px 0px 15px 15px var(--primary-color);}
+
+
+/* informacion */
+#info{
+    padding: 0px 50px;
+    background: var(--secundary-color2);
+}
+.otros{
+	padding: 30px 30px 0px 0px;
+	display:flex;
+	text-align:center;
+}
+.contenido-i{
+	padding: 50px 50px 0px 50px;
+	display:flex;
+	justify-content: space-between;
+	text-align:center;
+}
+
+#accesorio{border: none;}
+
+.contenido-i div{
+	flex: 1;
+	margin: 20px 0px;
+	border-right: 2px solid rgba(255,255,255,0.2);
+}
+
+
+.contenido-i div h6{
+	color: var(--text-color2);
+	font-size:20px;
+	font-weight: 100; 
+	margin: 10px 0px;
+}
+
+.contenido-i div p{
+	color: var(--primary-color);
+	font-size:16px;
+}
+
+/* Medias Quuery */
+@media (max-width: 600px) {
+    /*servicios*/
+    .contenedor-servicios1{
+        margin: 0;    
+        justify-content: center;
+        text-align: center;
+        flex-direction:column;
+         
+    }
+    .contenedor-servicios2{
+        margin: 0;    
+        justify-content: center;
+        text-align: center;
+        flex-direction:column;
+         
+    }
+    
+    #servicios img{
+        border-radius: 100%;  
+        display:block;
+        margin:0   ;
+        width: 100%;
+    }
+    
+    .img:hover {filter: opacity(.5);
+        box-shadow: 0px 0px 15px 15px var(--primary-color);}
+    
+    
+    /* banner*/  
+    .contenido-banner h3{
+        font-size:20px;
+        font-weight: 200;
+        padding: 10px 0px;
+    }
+    .contenido-banner h3 span{
+        font-weight:400;
+    }
+    .boton-turnos{
+        text-decoration: none;
+        color: var(--theme-color);
+        font-weight: bold;
+        border: 1px solid var(--theme-color);
+        padding: 10px 20px;
+        align-self: baseline;   
+        transition: all 0.4s;
+    }    
+    
+    /* informacion*/
+    .contenido-i{
+        flex-direction:column;
+    }
+    .contenido-i div{
+        border:none;
+    }
+    
+    }

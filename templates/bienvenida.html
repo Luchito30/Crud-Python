@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Pet Care</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #ffffff, #ff9aa2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #dashboard {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-width: 800px;
+            margin: 20px;
+            width: 35%;
+        }
+
+        #header {
+            background-color: #ff9aa2;
+            padding: 30px;
+            text-align: center;
+        }
+
+        #header h1 {
+            margin: 0;
+            color: white;
+            font-size: 3em;
+        }
+
+        #image-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        #dashboard-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        #greeting {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.5em;
+        }
+
+        #options {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .dashboard-option {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .dashboard-option:hover {
+            background-color: #ffced7;
+            color: #333;
+            transform: scale(1.05);
+        }
+
+        #clock {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        #weather {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+
+        #weather input {
+            margin-right: 10px;
+        }
+
+        #weather button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="dashboard">
+        <div id="header">
+            <h1>Bienvenido a Pet Care</h1>
+        </div>
+        <div id="image-container">
+            <img id="dashboard-image" src="../Public\Img\logo_petcare.png" alt="Pet Care Image">
+        </div>
+        <div id="greeting">
+            <p>¡Hola! selecciona la opción deseada.</p>
+        </div>
+        <div id="options">
+            <div class="dashboard-option" @click="goTo('Productos')">Explorar Productos</div>
+            <div class="dashboard-option" @click="goTo('Turnos')">Gestionar Turnos</div>
+        </div>
+
+        <div id="clock">
+            <p>¡Hora actual: {{ currentTime }}</p>
+        </div>
+
+        <div id="weather">
+            <p>{{ weatherInfo }}</p>
+            <div>
+                <label for="city">Ciudad:</label>
+                <input type="text" id="city" v-model="userCity" placeholder="Ingrese su ciudad">
+                <button @click="searchWeather">Buscar Clima</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentTime: this.getCurrentTime(),
+                    weatherInfo: '',
+                    userCity: '',
+                };
+            },
+            methods: {
+                getCurrentTime() {
+                    const now = new Date();
+                    const hours = now.getHours().toString().padStart(2, '0');
+                    const minutes = now.getMinutes().toString().padStart(2, '0');
+                    const seconds = now.getSeconds().toString().padStart(2, '0');
+                    return `${hours}:${minutes}:${seconds}`;
+                },
+                goTo(section) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `Ingresando a ${section}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Redirige o realiza otras acciones después de que el usuario ve el mensaje de éxito
+                        window.location.href = `./${section}.html`
+                    });
+                },
+                async searchWeather() {
+                    if (!this.userCity) {
+
+                        // Leer la información de sesión
+                        const user = sessionStorage.getItem('user');
+
+                        // Mostrar mensaje de bienvenida con SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Bienvenido a PET CARE!',
+                            text: `Hola, ${user}! Gracias por iniciar sesión.`,
+                            timer: 5000,
+                            timerProgressBar: true,
+                        });
+                        return;
+                    }
+
+                    const apiKey = '0535c7e70cb04b503fb8e012723cb335'; // Reemplazar con tu clave de OpenWeatherMap
+                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${this.userCity}&appid=${apiKey}`;
+
+                    try {
+                        const response = await fetch(apiUrl);
+                        const data = await response.json();
+
+                        if (data.weather && data.weather.length > 0) {
+                            const description = data.weather[0].description;
+                            const temperature = (data.main.temp - 273.15).toFixed(1); // Convertir de Kelvin a Celsius
+                            this.weatherInfo = `Clima en ${this.userCity}: ${description}, Temperatura: ${temperature}°C`;
+                        } else {
+                            this.weatherInfo = 'No se pudo obtener la información del clima.';
+                        }
+                    } catch (error) {
+                        console.error('Error al obtener el clima:', error);
+                        this.weatherInfo = 'Error al obtener la información del clima.';
+                    }
+                },
+                updateTime() {
+                    this.currentTime = this.getCurrentTime();
+                },
+            },
+            created() {
+                setInterval(this.updateTime, 1000);
+                this.searchWeather(); // Llama a la función de búsqueda de clima al cargar la página
+            },
+        }).mount('#dashboard');
+    </script>
+</body>
+
+</html>

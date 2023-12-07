@@ -1,4 +1,11 @@
 @import "./general.css";
+@import "./dashboard.css";
+@import "./ESTILOSNUEVO.CSS";
+@import "./footer.css";
+@import "./header-dash.css";
 @import "./index.css";
 @import "./loader.css";
-@import "./header.css"
+@import "./header.css";
+@import "./logeo.css";
+@import "./nosotros.css";
+@import "./servicios.css";

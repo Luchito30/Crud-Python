@@ -1,210 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Pet Care</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom right, #ffffff, #ff9aa2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        #dashboard {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            max-width: 800px;
-            margin: 20px;
-            width: 35%;
-        }
-
-        #header {
-            background-color: #ff9aa2;
-            padding: 30px;
-            text-align: center;
-        }
-
-        #header h1 {
-            margin: 0;
-            color: white;
-            font-size: 3em;
-        }
-
-        #image-container {
-            text-align: center;
-            padding: 30px;
-        }
-
-        #dashboard-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 20px;
-        }
-
-        #greeting {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.5em;
-        }
-
-        #options {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-        }
-
-        .dashboard-option {
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.3s;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .dashboard-option:hover {
-            background-color: #ffced7;
-            color: #333;
-            transform: scale(1.05);
-        }
-
-        #clock {
-            text-align: center;
-            font-size: 1.2em;
-            margin-top: 20px;
-        }
-
-        #weather {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 60px;
-        }
-
-        #weather input {
-            margin-right: 10px;
-        }
-
-        #weather button {
-            cursor: pointer;
-        }
-    </style>
+    <!-- Icono -->
+    <link rel="icon" sizes="any" href="../public/Img/icons-petcar.png" type="image/png">
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/2d353964a9.js" crossorigin="anonymous"></script>
+    <!-- sweetalert -->
+    <script src="/javascripts/libraries/sweetalert.js"></script>
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Estilos -->
+    <link rel="stylesheet" href="../public/stylesheet/style.css">
+    <title>PetCare Inicio</title>
 </head>
+
 <body>
-    <div id="dashboard">
-        <div id="header">
-            <h1>Bienvenido a Pet Care</h1>
+    <!-- header -->
+    <header class="header">
+        <!-- logo -->
+        <div class="header__conteinerimg">
+            <a href="./index.html"><img src="../public/Img/logo_petcare.png" alt="Logo VetCare"></a>
         </div>
-        <div id="image-container">
-            <img id="dashboard-image" src="../Public\Img\logo_petcare.png" alt="Pet Care Image">
-        </div>
-        <div id="greeting">
-            <p>¡Hola! selecciona la opción deseada.</p>
-        </div>
-        <div id="options">
-            <div class="dashboard-option" @click="goTo('Productos')">Explorar Productos</div>
-            <div class="dashboard-option" @click="goTo('Turnos')">Gestionar Turnos</div>
-        </div>
-
-        <div id="clock">
-            <p>¡Hora actual: {{ currentTime }}</p>
-        </div>
-
-        <div id="weather">
-            <p>{{ weatherInfo }}</p>
-            <div>
-                <label for="city">Ciudad:</label>
-                <input type="text" id="city" v-model="userCity" placeholder="Ingrese su ciudad">
-                <button @click="searchWeather">Buscar Clima</button>
+        <!-- menu Hamburgesa -->
+        <section class="header__section--hamburgersa">
+            <article class="header__section__article">
+                <div class="header__section__article__div">
+                    <i class="fa-solid fa-bars"></i>
+                    <nav class="header__section__article__div__nav">
+                        <div class="header__section__article__div__nav__div">
+                            <ul>
+                                <li class="header__nav--navegacion--primaria">
+                                    <a href="./index.html"><i class="fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="header__nav--navegacion--primaria"><a href="./servicios.html">Servicios</a>
+                                </li>
+                                <li class="header__nav--navegacion--primaria"><a href="./Nosotros.html">Nosotros</a>
+                                </li>
+                                <li class="header__nav--navegacion--primaria"><a
+                                        href="./Contacto-PetCare.html">Contacto</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </section>
+        <!-- menu navbar -->
+        <section class="header__section--navbarmenu">
+            <ul class="header__section--navul">
+                <li class="header__section--navul--li"><a href="./index.html">Home</a></li>
+                <li class="header__section--navul--li"><a href="./servicios.html">Servicios</a></li>
+                <li class="header__section--navul--li"><a href="./Nosotros.html">Nosotros</a></li>
+                <li class="header__section--navul--li"><a href="./Contacto-PetCare.html">Contacto</a></li>
+            </ul>
+        </section>
+    </header>
+    <!-- main -->
+    <main>
+        <!-- slider -->
+        <section class="main__container">
+            <div class="main__container--slider-wrapper">
+                <div class="main__container--slider-wrapper__slider">
+                    <div class="main__conteinerimg--slider">
+                        <img class="main__conteinerimg--slider-img" id="slider-1" src="../public/Img/slider1.jpg"
+                            alt="Turno">
+                        <h3 class="main__conteinerimg--slider-titulo">Cuida a tus queridas mascotas</h3>
+                        <p class="main__conteinerimg--slider-description">
+                            Brindamos el mejor cuidado veterinario para tus queridos animales de compañía.
+                        </p>
+                        <a class="main__conteinerimg--slider-vinculo" href="./Contacto-PetCare.html">
+                            <button class="main__conteinerimg--slider-boton">
+                                Solicitar turno
+                            </button>
+                        </a>
+                    </div>
+                    <div class="main__conteinerimg--slider">
+                        <img class="main__conteinerimg--slider-img" id="slider-2" src="../public/Img/slider2.jpg"
+                            alt="Baño">
+                        <h3 class="main__conteinerimg--slider-titulo">Mascotas limpitas, mascotas felices</h3>
+                        <p class="main__conteinerimg--slider-description">
+                            Bañamos y Consentimos a tus Mascotas para que Sean las Más Felices.
+                        </p>
+                        <a class="main__conteinerimg--slider-vinculo" href="./Contacto-PetCare.html">
+                            <button class="main__conteinerimg--slider-boton">
+                                Solicitar turno
+                            </button>
+                        </a>
+                    </div>
+                    <div class="main__conteinerimg--slider">
+                        <img class="main__conteinerimg--slider-img" id="slider-3" src="../public/Img/slider3.jpg"
+                            alt="Cuidado">
+                        <h3 class="main__conteinerimg--slider-titulo">Protege a tu mascota</h3>
+                        <p class="main__conteinerimg--slider-description">
+                            Protege a tu Mascota: Nuestra Prioridad es su Salud.
+                        </p>
+                        <a class="main__conteinerimg--slider-vinculo" href="./Contacto-PetCare.html">
+                            <button class="main__conteinerimg--slider-boton">
+                                Solicitar turno
+                            </button>
+                        </a>
+                    </div>
+                    <div class="main__conteinerimg--slider">
+                        <img class="main__conteinerimg--slider-img1" id="slider-4" src="../public/Img/slider4.png"
+                            alt="Slogan">
+                    </div>
+                </div>
+                <!-- paguinado slider -->
+                <div class="main__container--slider-nav">
+                    <a class="indicator" href="#" id="indicator1"></a>
+                    <a class="indicator" href="#" id="indicator2"></a>
+                    <a class="indicator" href="#" id="indicator3"></a>
+                    <a class="indicator" href="#" id="indicator4"></a>
+                </div>
             </div>
+        </section>
+        <!-- nosotros -->
+        <section class="main__section-nosotros">
+            <div class="main__section-nosotros--conteiner">
+                <h1 class="main__section-nosotros-titulo">PetCare <i
+                        class="fa-solid fa-paw main__section-nosotros-titulo-paw"></i></h1>
+                <h2 class="main__section-nosotros-subtitulo">Porque tu mascota merece lo mejor</h2>
+                <article class="main__section-nosotros__article">
+                    <p>Nuestro equipo de profesionales altamente capacitados y comprometidos se dedica a proporcionar la
+                        más
+                        alta calidad de atención. Nos enorgullecemos de ofrecer servicios que abarcan desde la atención
+                        médica, vacunación, cirugías avanzadas y servicios de baño. Nuestro enfoque está en la
+                        innovación y
+                        la excelencia veterinaria para garantizar la salud y el bienestar de tus compañeros peludos. Tu
+                        mascota siempre está en buenas manos con nosotros.</p>
+                </article>
+                <figure class="main__section-nosotros-containerimg">
+                    <img src="../public/Img/img-nosotros.png" alt="">
+                </figure>
+            </div>
+        </section>
+        <!-- servicios -->
+        <section class="main__section--servicios">
+            <h2 class="main__section--servicios-titulo">¿Cuales son Nuestros Servicios?</h2>
+            <div class="main__section--servicios-container">
+                <article class="main__section--servicios--card">
+                    <h4><span><i class="fa-solid fa-briefcase-medical"></i></span><span>CLÍNICA Y CIRUGÍA</span></h4>
+                    <img src="../public/Img/servicio-atencion.jpg" alt="atencion">
+                    <p>Contamos con un equipo de especialistas. Ofrecemos atención clínica y quirúrgica de alta calidad.
+                        Además,
+                        disponemos de servicio de internación para brindar el cuidado necesario.
+                    </p>
+                </article>
+                <article class="main__section--servicios--card">
+                    <h4><span><i class="fa-solid fa-shower"></i></span><span>BAÑO Y PELUQUERÍA</span></h4>
+                    <img src="../public/Img/servicio-baño.jpg" alt="baño">
+                    <p>Ofrecemos servicios de baño y peluquería para tu mascota, con comodidad y conveniencia.
+                    </p>
+                </article>
+                <article class="main__section--servicios--card">
+                    <h4><span><i class="fa-solid fa-syringe"></i></span><span>VACUNACIÓN</span></h4>
+                    <img src="../public/Img/servicio-vacuna.jpg" alt="vacuna">
+                    <p>Protege la salud de tu mascota con nuestros servicios de vacunación. Tu mejor amigo merece estar
+                        seguro y saludable.
+                    </p>
+                </article>
+                <article class="main__section--servicios--card">
+                    <h4><span><i class="fa-solid fa-x-ray"></i></span><span>RADIOLOGÍA Y ECOGRAFÍA</span></h4>
+                    <img src="../public/Img/servicio-radiografia.jpg" alt="radiografia">
+                    <p>En nuestra clínica veterinaria, ofrecemos servicios especializados de radiología y ecografía para
+                        diagnosticar y cuidar de la salud de tu mascota.
+                    </p>
+                </article>
+                <article class="main__section--servicios--card">
+                    <h4><span><i class="fa-solid fa-prescription-bottle-medical"></i></span><span>FARMACIA
+                            VETERINARIA</span></h4>
+                    <img src="../public/Img/servicio-farmacia.jpg" alt="farmacia">
+                    <p>Tu fuente confiable de medicamentos y cuidado para mascotas. Mantén a tu amigo peludo saludable
+                        con nuestros productos de alta calidad.
+                    </p>
+                </article>
+                <article class="main__section--servicios--card">
+                    <h4><span><i class="fa-solid fa-shop"></i></span><span>PET SHOP</span></h4>
+                    <img src="../public/Img/servicio-petshop.jpg" alt="petshop">
+                    <p>Contamos con una amplia variedad de accesorios y productos nacionales e importados.
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+    <!-- footer -->
+    <footer class="footer">
+        <!-- logo y redes sociales -->
+        <section class="footer__section">
+            <div class="footer__section--conteinerimg">
+                <img src="../public/Img/logo_petcare.png" alt="">
+            </div>
+            <div class="footer__section--conteinersocial">
+                <ul>
+                    <li class="footer__section--conteinersocial-lista"><a href="https://facebook.com/"
+                            target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+                    <li class="footer__section--conteinersocial-lista"><a href="https://instagram.com/"
+                            target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+                    <li class="footer__section--conteinersocial-lista"><a href="https://twitter.com/intent/tweet"
+                            target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
+                </ul>
+            </div>
+        </section>
+        <!-- datos de contacto -->
+        <div class="footer__section2--container">
+            <section class="footer__section2">
+                <h3 class="footer__section2--titulo">Atencion al cliente</h3>
+                <div class="footer__section2--contacto">
+                    <ul class="footer__section2--contacto-ul">
+                        <li>0800 420 0809</li>
+                        <li>LU-VI de 09:00 a 21:00</li>
+                        <li>SA de 9:00 a 13:00 y 17:00 a 21:00</li>
+                        <li><a
+                                href="mailto:consultas.petcare@gmail.com?Subject=Consulta%20de%20Servicio&body=Necesito%20información%20del%20servicio:">consultas.petcare@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <hr class="footer__section--hr">
+            <section class="footer__section3">
+                <h3 class="footer__section3--titulo">Menu</h3>
+                <div class="footer__section3--contacto">
+                    <ul class="footer__section3--contacto-ul">
+                        <li><a href="./index.html">HOME</a></li>
+                        <li><a href="./servicios.html">SERVICIOS</a></li>
+                        <li><a href="./Nosotros.html">NOSOTROS</a></li>
+                        <li><a href="./Contacto-PetCare.html">CONTACTO</a></li>
+                    </ul>
+                </div>
+                <br>
+                <h3 class="footer__section3--titulo">PET CARE</h3>
+                <div class="footer__section3--contacto">
+                    <ul class="footer__section3--contacto-ul">
+                        <li><a href="./logeo.html">INGRESO</a></li>
+                    </ul>
+                </div>
+            </section>
+            <hr class="footer__section--hr2">
+            <section class="footer__section4">
+                <h3 class="footer__section4--titulo">Newsletter</h3>
+                <form id="form__enviar" class="footer__sections4--form">
+                    <input type="email" name="email" id="email" placeholder="Ingrese su email"
+                        class="footer__form--input">
+                    <button type="submit" class="footer__form--botton"><span
+                            class="footer__form--botton-span">Suscribite</span></button>
+                </form>
+            </section>
         </div>
-    </div>
+        <hr class="footer__section--hr3">
+        <section class="footer__section--copyrigth">
+            <p>Copyright © 2023 PetCare</p>
+        </section>
+        <section class="footer__section--what">
+            <a href="https://api.whatsapp.com/" target="_blank"><img src="../public/Img/whatsapp.png" alt="whatsapp"
+                    class="footer__section--what-img"></a>
+        </section>
+    </footer>
+    <!-- SweetAlert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Archivos javaScripts-->
+    <script src="../public/javascript/slider.js"></script>
+    <script src="../public/javascript/cardscroll.js"></script>
+    <script src="../public/javascript/newsletterValidator.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-        const { createApp, ref } = Vue;
-
-        createApp({
-            data() {
-                return {
-                    currentTime: this.getCurrentTime(),
-                    weatherInfo: '',
-                    userCity: '',
-                };
-            },
-            methods: {
-                getCurrentTime() {
-                    const now = new Date();
-                    const hours = now.getHours().toString().padStart(2, '0');
-                    const minutes = now.getMinutes().toString().padStart(2, '0');
-                    const seconds = now.getSeconds().toString().padStart(2, '0');
-                    return `${hours}:${minutes}:${seconds}`;
-                },
-                goTo(section) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: `Ingresando a ${section}`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        // Redirige o realiza otras acciones después de que el usuario ve el mensaje de éxito
-                        window.location.href = `./${section}.html`
-                    });
-                },
-                async searchWeather() {
-                    if (!this.userCity) {
-                        Swal.fire({
-                            title: 'Bienvenido a PET CARE',
-                            icon: 'info',
-                            text: "Ingrese su ciudad para ver la Temperatura",
-                            timer: 5000,
-                            timerProgressBar: true,
-                        });
-                        return;
-                    }
-
-                    const apiKey = '0535c7e70cb04b503fb8e012723cb335'; // Reemplazar con tu clave de OpenWeatherMap
-                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${this.userCity}&appid=${apiKey}`;
-
-                    try {
-                        const response = await fetch(apiUrl);
-                        const data = await response.json();
-
-                        if (data.weather && data.weather.length > 0) {
-                            const description = data.weather[0].description;
-                            const temperature = (data.main.temp - 273.15).toFixed(1); // Convertir de Kelvin a Celsius
-                            this.weatherInfo = `Clima en ${this.userCity}: ${description}, Temperatura: ${temperature}°C`;
-                        } else {
-                            this.weatherInfo = 'No se pudo obtener la información del clima.';
-                        }
-                    } catch (error) {
-                        console.error('Error al obtener el clima:', error);
-                        this.weatherInfo = 'Error al obtener la información del clima.';
-                    }
-                },
-                updateTime() {
-                    this.currentTime = this.getCurrentTime();
-                },
-            },
-            created() {
-                setInterval(this.updateTime, 1000);
-                this.searchWeather(); // Llama a la función de búsqueda de clima al cargar la página
-            },
-        }).mount('#dashboard');
-    </script>
 </body>
+
 </html>

@@ -1,0 +1,23 @@
+.header__logo {
+    width: 70%;
+    filter: drop-shadow(2px 3px 2px white);
+}
+
+.header__menu{
+    color: wheat;
+    font-size: 24px;
+    font-weight: 700;
+    filter: drop-shadow(2px 4px 3px black);
+    text-decoration: underline;
+    text-underline-position: under;
+}
+
+.header__form{
+    width: 50%;
+}
+
+.header__hora{
+    color: wheat;
+    font-size: 17px;
+    filter: drop-shadow(2px 4px 4px black);
+}

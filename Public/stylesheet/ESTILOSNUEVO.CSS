@@ -1,0 +1,158 @@
+.mapa{
+    /*box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);*/
+    border-bottom: 2px solid;
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+
+.wapetcare:hover {
+   
+    color: white;
+    text-shadow: 2px 2px 4px #000000
+}
+
+.mailpetcare:hover {
+    color: white;
+    text-shadow: 2px 2px 4px #000000
+}
+
+.igpetcare:hover {
+    color: white;
+    text-shadow: 2px 2px 4px #000000
+}
+.subtitulo-contacto {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-size: 25px;
+    background-color: #bf7352
+    
+    
+
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: 'Montserrat Alternates', sans-serif;
+    background-color: #bf7352;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+    padding: 63px;
+    line-height: 40px;
+    
+}
+
+
+#contact-form {
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+#error-message {
+    color: red;
+}
+
+
+
+#contact-form input,
+#contact-form textarea,
+#contact-form button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#contact-form button {
+    background-color: #b64819;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#contact-info {
+    font-size: 16px;
+    
+}
+
+.mailpetcare {
+    color: black;
+}
+
+.wapetcare {
+    color: black;
+}
+
+.igpetcare {
+    color: black;
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    background-color: #f3b6b6;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.popup p {
+    margin: 0;
+    padding: 10px;
+}
+
+
+.close:hover {
+    color: red;
+}

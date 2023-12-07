@@ -32,51 +32,52 @@
                 </section>
                 <section v-else>
                     <section>
-                        <h2 class="main__titulo">Turno Próximo</h2>
+                        <h2 class="main__titulo">Próximo Turno</h2>
                         <div v-if="turnoProximo" class="main__conteiner-description turno--proximo">
-                            <!-- Mostrar detalles del turno próximo aquí -->
-                            <p>ID: {{ turnoProximo.id }}</p>
-                            <p>{{ turnoProximo.fecha }} - {{ turnoProximo.hora }}</p>
-                            <p>{{ turnoProximo.paciente_nombre }} - {{ turnoProximo.especialidad }}</p>
+                            <div class="card text-dark bg-light mb-4 main__proximo">
+                                <div class="card-body">
+                                    <p class="card-title">ID: {{ turnoProximo.id }}</p>
+                                    <p class="card-text">{{ turnoProximo.fecha }} - {{ turnoProximo.hora }}</p>
+                                    <p class="card-text">{{ turnoProximo.paciente_nombre }} - {{ turnoProximo.especialidad }}</p>
+                                </div>
+                            </div>
                         </div>
                         <div v-else>
                             <p>No hay turno próximo.</p>
                         </div>
                     </section>
-                    <section>
-                        <h2 class="main__titulo">Turnos Pasados</h2>
-                        <div v-if="turnosPasados.length > 0" class="main__conteiner-description main__containerto">
-                            <!-- Mostrar detalles de los turnos pasados aquí -->
-                            <ul class="main__listadoturno">
-                                <li v-for="turno in turnosPasados" :key="turno.id">
+                    <section class="mb-4">
+                        <h2 class="main__subtitulo mb-4">Turnos Pasados</h2>
+                        <div v-if="turnosPasados.length > 0" class="main__conteiner-description d-flex justify-content-center gap-5 flex-wrap mb-4">
+                            <div v-for="turno in turnosPasados" :key="turno.id" class="card text-dark bg-light me-2 mb-2 main__pasado">
+                                <div class="card-body">
                                     <p>ID: {{ turno.id }}</p>
                                     <p>{{ turno.fecha }} - {{ turno.hora }}</p>
                                     <p>{{ turno.paciente_nombre }} - {{ turno.especialidad }}</p>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                         <div v-else>
                             <p>No hay turnos vencidos.</p>
                         </div>
                     </section>
-
-                    <section>
+                    <section class="mb-4">
                         <div class="table-responsive">
-                            <table class="table table-bordered talbe__conteiner">
-                                <thead>
+                            <table class="table table-bordered table-hover talbe__conteiner">
+                                <thead class="table-dark">
                                     <tr>
-                                        <th class="text-center talbe-titulotable" scope="col">Id</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Fecha</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Hora</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Nombre del Paciente</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Especialidad</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Estado</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Notas</th>
-                                        <th class="text-center talbe-titulotable" scope="col">Acciones</th>
+                                        <th class="text-center" scope="col">Id</th>
+                                        <th class="text-center" scope="col">Fecha</th>
+                                        <th class="text-center" scope="col">Hora</th>
+                                        <th class="text-center" scope="col">Nombre del Paciente</th>
+                                        <th class="text-center" scope="col">Especialidad</th>
+                                        <th class="text-center" scope="col">Estado</th>
+                                        <th class="text-center" scope="col">Notas</th>
+                                        <th class="text-center" scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="" v-for="turno in turnos" :key="turno.id">
+                                    <tr v-for="turno in turnos" :key="turno.id" class="table-row-hover">
                                         <td class="fw-bold text-center talbe-contenido" scope="row">{{ turno.id }}</td>
                                         <td class="text-center talbe-contenido">{{ turno.fecha }}</td>
                                         <td class="text-center talbe-contenido">{{ turno.hora }}</td>
@@ -85,13 +86,13 @@
                                         <td class="text-center talbe-contenido">{{ turno.estado }}</td>
                                         <td class="text-center talbe-contenido">{{ turno.notas }}</td>
                                         <td>
-                                            <div class="d-flex justify-content-center">
-                                                <a class="btn btn-primary boton__actions"
-                                                    :href="'turno_update.html?id=' + turno.id"><i
-                                                        class="fa-solid fa-pen-to-square"></i></a>
-                                                <button type="button" class="btn btn-danger ms-2 boton__actions"
-                                                    v-on:click="eliminar(turno.id)"><i
-                                                        class="fa-solid fa-trash"></i></button>
+                                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                                <a class="btn btn-primary btn-sm me-1" :href="'turno_update.html?id=' + turno.id">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                                                </a>
+                                                <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminar(turno.id)">
+                                                    <i class="fa-solid fa-trash"></i> Eliminar
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -123,8 +124,8 @@
             </div>
         </div>
     </main>
-    <footer>
-        <!-- Coloca tu pie de página aquí -->
+    <footer class="mt-5 text-center">
+        <p>&copy; 2023 PET CARE. Todos los derechos reservados.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"

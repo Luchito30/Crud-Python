@@ -25,6 +25,10 @@ li {
     --menu-mobile-background-color: #F7C4B7;
 }
 
+.body{
+    background-color: white;
+}
+
 /* Body */
 /*Banner*/
 #banner{

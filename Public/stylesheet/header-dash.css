@@ -1,23 +1,56 @@
 .header__logo {
-    width: 70%;
+    max-width: 70%;
+    height: auto;
     filter: drop-shadow(2px 3px 2px white);
 }
 
-.header__menu{
+.header__menu {
     color: wheat;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
-    filter: drop-shadow(2px 4px 3px black);
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+.header__menu:hover {
     text-decoration: underline;
-    text-underline-position: under;
 }
 
-.header__form{
-    width: 50%;
-}
-
-.header__hora{
+.header__hora {
     color: wheat;
-    font-size: 17px;
+    font-size: 15px;
     filter: drop-shadow(2px 4px 4px black);
+}
+
+.header__div {
+    background-color: #7a3f3f;
+    padding: 10px;
+    width: 100%;
+}
+
+.header__user {
+    color: white;
+    margin-right: 10px;
+}
+
+.header__btn-salir {
+    margin-top: 5px;
+}
+
+.header__usartam{
+    font-size: 16px;
+    color: wheat;
+    filter: drop-shadow(2px 4px 6px black);
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}
+
+@media (max-width: 767px) {
+    .header__logo {
+        max-width: 100%;
+    }
+    .header__menu {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
 }

@@ -1,5 +1,5 @@
 # Importación de módulos necesarios
-from flask import Flask, jsonify, request,redirect, url_for, session
+from flask import Flask, jsonify, request,redirect, url_for, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import Schema, fields, ValidationError
 from flask_cors import CORS
@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from sqlalchemy import func
 from flask_bcrypt import Bcrypt
 import datetime
+from functools import wraps
 
 # Creación de la aplicación Flask
 app = Flask(__name__)
@@ -22,6 +23,40 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 bcrypt = Bcrypt(app)
+
+# decorador que verifica si el usuario está autenticado
+def login_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        return func(*args, **kwargs)
+    return decorated_function
+
+@app.route('/bienvenida.html')
+@login_required
+def bienvenida():
+    return render_template('index.html')
+
+@app.route('/productos.html')
+@login_required
+def productos():
+    return render_template('productos.html')
+
+@app.route('/turnos.html')
+@login_required
+def turnos():
+    return render_template('turnos.html')
+
+@app.route('/turno_update.html')
+@login_required
+def turno_update():
+    return render_template('turno_update.html')
+
+@app.route('/productos_update.html')
+@login_required
+def productos_update():
+    return render_template('productos_update.html')
 
 # Definición del modelo de datos
 class Rol(db.Model):
@@ -98,7 +133,8 @@ def login():
             if bcrypt.check_password_hash(usuario.password, password):
                 # Guardar información de sesión
                 session['user'] = usuario.user
-                return jsonify({'mensaje': 'Inicio de sesión exitoso'})
+                session['rol_id'] = usuario.rol_id  # Agregar rol_id a la sesión
+                return jsonify({'mensaje': 'Inicio de sesión exitoso', 'rol_id': usuario.rol_id})
             else:
                 return jsonify({'error': 'Contraseña incorrecta'}), 401
         else:
@@ -106,6 +142,7 @@ def login():
 
     except Exception as e:
         return jsonify({'error': f'Error en el servidor: {str(e)}'}), 500
+
 
 # Definición del modelo de datos
 class Producto(db.Model):

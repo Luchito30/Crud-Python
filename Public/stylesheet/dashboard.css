@@ -3,7 +3,17 @@
     font-weight: 700;
     text-align: center;
     text-decoration: underline;
-    margin-top: 70px;
+    margin-top: 40px;
+    color: wheat;
+    filter: drop-shadow(2px 4px 5px black);
+}
+
+.main__subtitulo{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 25px;
     color: wheat;
     filter: drop-shadow(2px 4px 5px black);
 }
@@ -20,13 +30,6 @@
 
 .talbe__conteiner{
     background-color: black;
-    filter: drop-shadow(2px 4px 6px black);
-}
-
-.talbe-titulotable{
-    color: wheat;
-    font-size: 18px;
-    font-weight: 700;
     filter: drop-shadow(2px 4px 6px black);
 }
 
@@ -56,9 +59,23 @@
 }
 
 .turno--proximo{
-    margin-top: 60px;
+    margin-top: 25px;
     justify-content: center !important;
     gap: 80px;
+}
+
+.main__proximo{
+    background-color: #7a3f3f !important;
+    color: white !important;
+    width: 30%;
+    text-align: center;
+}
+
+.main__pasado{
+    width: 18rem;
+    background-color: #7a3f3f !important;
+    color: white !important;
+    text-align: center;
 }
 
 .main__listadoturno{
@@ -70,4 +87,31 @@
 
 .main__containerto{
     justify-content: center !important;
+}
+
+.table-row-hover:hover {
+    background-color:  #7a3f3f; /* Fondo durante el hover */
+}
+
+.table-row-hover:hover td {
+    color: #fff !important;
+}
+
+.dash__card{
+    max-width: 18rem;
+    background-color: #7a3f3f; 
+    }
+
+.card-header--titulo{
+    color: wheat;
+    font-size: 16px;
+    font-weight: 700;
+    filter: drop-shadow(2px 4px 4px black);
+    font-family: 'Montserrat', sans-serif;
+}
+.main__boton--orden{
+    background-color: #7a3f3f;
+    filter: drop-shadow(2px 4px 4px black);
+    margin-bottom: 20px;
+    color: white;
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,105 +16,129 @@
     <header id="header">
         <!-- Coloca tu barra de navegación aquí -->
     </header>
+
     <main>
-        <div id="app" class="container">
+        <div id="app" class="container mt-4">
             <h1 class="main__titulo">PRODUCTOS</h1>
             <br>
             <a class="btn btn-success fw-bold d-flex flex-column align-items-center justify-content-center boton__nuevo"
                 href="producto_nuevo.html">Nuevo</a>
             <br><br>
-            <div v-if="error">
+
+            <div v-if="error" class="alert alert-danger">
                 <p class="main__cargando_p">Lo sentimos, ha ocurrido un error.</p>
             </div>
+
             <div v-else>
                 <section class="d-flex flex-column align-items-center justify-content-center" v-if="cargando">
                     <div class="loader text-center"></div>
                     <p class="main__cargando_p">Cargando...</p>
                 </section>
-                <section v-else>
-                    <div class="main__conteiner-description">
-                        <p class="main__total-productos">Total de Productos: {{ totalItems }}</p>
-                        <div v-if="productoConMayorCantidad">
-                            <p class="main__producto-mayor-cantidad">Producto con Mayor Cantidad:</p>
-                            <p>{{ productoConMayorCantidad.nombre_producto }} - Cantidad: {{
-                                productoConMayorCantidad.cantidad }}</p>
-                        </div>
-                        <div v-if="productoConMayorPrecio">
-                            <p class="main__producto-mayor-precio">Producto con Mayor Precio:</p>
-                            <p>{{ productoConMayorPrecio.nombre_producto }} - Precio: ${{
-                                productoConMayorPrecio.precio_unitario }}</p>
+
+                <section v-else class="d-flex justify-content-center gap-5 flex-wrap">
+                    <div class="card mb-3 dash__card">
+                        <div class="card-header card-header--titulo">Resumen de Productos</div>
+                        <div class="card-body">
+                            <h5 class="card-title main__total-productos">Total de Productos: {{ totalItems }}</h5>
                         </div>
                     </div>
-                    <div class="main__text-end">
-                        <button class="btn btn-light me-2" @click="ordenarTabla('cantidad')">Ordenar por
-                            Cantidad</button>
-                        <button class="btn btn-light" @click="ordenarTabla('precio_unitario')">Ordenar por
-                            Precio</button>
+
+                    <div v-if="productoConMayorCantidad" class="card mb-3 dash__card" style="max-width: 18rem;">
+                        <div class="card-header card-header--titulo">Producto con Mayor Cantidad</div>
+                        <div class="card-body">
+                            <p class="main__producto-mayor-cantidad">{{ productoConMayorCantidad.nombre_producto }} -
+                                Cantidad: {{ productoConMayorCantidad.cantidad }}</p>
+                        </div>
                     </div>
+
+                    <div v-if="productoConMayorPrecio" class="card mb-3 dash__card" style="max-width: 18rem;">
+                        <div class="card-header card-header--titulo">Producto con Mayor Precio</div>
+                        <div class="card-body">
+                            <p class="main__producto-mayor-precio">{{ productoConMayorPrecio.nombre_producto }} -
+                                Precio: ${{ productoConMayorPrecio.precio_unitario }}</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="main__text-end mb-3">
+                    <button class="btn btn-light me-2 main__boton--orden" @click="ordenarTabla('cantidad')">Ordenar por
+                        Cantidad</button>
+                    <button class="btn btn-light main__boton--orden" @click="ordenarTabla('precio_unitario')">Ordenar
+                        por Precio</button>
+                </div>
+
+                <section class="mb-4">
                     <div class="table-responsive">
-                        <table class="table table-bordered talbe__conteiner">
-                            <thead>
+                        <table class="table table-bordered table-hover talbe__conteiner">
+                            <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center talbe-titulotable" scope="col">Id</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Nombre del Producto</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Descripción del Producto</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Categoría</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Proveedor</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Cantidad</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Precio Unitario</th>
-                                    <th class="text-center talbe-titulotable" scope="col">Acciones</th>
+                                    <th class="text-center" scope="col">Id</th>
+                                    <th class="text-center" scope="col">Nombre del Producto</th>
+                                    <th class="text-center" scope="col">Descripción del Producto</th>
+                                    <th class="text-center" scope="col">Categoría</th>
+                                    <th class="text-center" scope="col">Proveedor</th>
+                                    <th class="text-center" scope="col">Cantidad</th>
+                                    <th class="text-center" scope="col">Precio Unitario</th>
+                                    <th class="text-center" scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="" v-for="producto in productos" :key="producto.id">
+                                <tr v-for="producto in productos" :key="producto.id" class="table-row-hover">
                                     <td class="fw-bold text-center talbe-contenido" scope="row">{{ producto.id }}</td>
-                                    <td class=" talbe-contenido">{{ producto.nombre_producto }}</td>
-                                    <td class=" talbe-contenido">{{ producto.descripcion_producto }}</td>
+                                    <td class="talbe-contenido">{{ producto.nombre_producto }}</td>
+                                    <td class="talbe-contenido">{{ producto.descripcion_producto }}</td>
                                     <td class="text-center talbe-contenido">{{ producto.categoria }}</td>
                                     <td class="text-center talbe-contenido">{{ producto.proveedor }}</td>
                                     <td class="text-center talbe-contenido">{{ producto.cantidad }}</td>
                                     <td class="text-center talbe-contenido">${{ producto.precio_unitario }}</td>
                                     <td>
-                                        <div class="d-flex justify-content-center">
-                                            <a class="btn btn-primary boton__actions"
-                                                :href="'producto_update.html?id=' + producto.id"><i
-                                                    class="fa-solid fa-pen-to-square"></i></a>
-                                            <button type="button" class="btn btn-danger ms-2 boton__actions"
-                                                v-on:click="eliminar(producto.id)"><i
-                                                    class="fa-solid fa-trash"></i></button>
+                                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                            <a class="btn btn-primary btn-sm me-1"
+                                                :href="'producto_update.html?id=' + producto.id">
+                                                <i class="fa-solid fa-pen-to-square"></i> Editar
+                                            </a>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                v-on:click="eliminar(producto.id)">
+                                                <i class="fa-solid fa-trash"></i> Eliminar
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <section class="d-flex justify-content-center">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                                    <a class="page-link" @click="changePage(currentPage - 1)" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li v-for="page in totalPages" :key="page" class="page-item"
-                                    :class="{ active: currentPage === page }">
-                                    <a class="page-link" @click="changePage(page)">{{ page }}</a>
-                                </li>
-                                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                                    <a class="page-link" @click="changePage(currentPage + 1)" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </section>
+                </section>
+
+                <section class="d-flex justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                <a class="page-link" @click="changePage(currentPage - 1)" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li v-for="page in totalPages" :key="page" class="page-item"
+                                :class="{ active: currentPage === page }">
+                                <a class="page-link" @click="changePage(page)">{{ page }}</a>
+                            </li>
+                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                <a class="page-link" @click="changePage(currentPage + 1)" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </section>
             </div>
         </div>
     </main>
+
     <footer>
-        <!-- Coloca tu pie de página aquí -->
+        <footer class="mt-5 text-center">
+            <p>&copy; 2023 PET CARE. Todos los derechos reservados.</p>
+        </footer>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>

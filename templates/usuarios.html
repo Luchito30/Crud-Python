@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <title>Lista de Productos</title>
+    <title>Lista de Usuarios</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://kit.fontawesome.com/2d353964a9.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Public/stylesheet/style.css">
+        <link rel="stylesheet" href="../Public/stylesheet/style.css">
 </head>
 
 <body>
@@ -19,10 +19,10 @@
 
     <main>
         <div id="app" class="container mt-4">
-            <h1 class="main__titulo">PRODUCTOS</h1>
+            <h1 class="main__titulo">USUARIOS</h1>
             <br>
             <a class="btn btn-success fw-bold d-flex flex-column align-items-center justify-content-center boton__nuevo"
-                href="producto_nuevo.html">Nuevo</a>
+                href="./usuarios_nuevo.html">Nuevo</a>
             <br><br>
 
             <div v-if="error" class="alert alert-danger">
@@ -37,35 +37,28 @@
 
                 <section v-else class="d-flex justify-content-center gap-5 flex-wrap">
                     <div class="card mb-3 dash__card">
-                        <div class="card-header card-header--titulo">Resumen de Productos</div>
+                        <div class="card-header card-header--titulo">Resumen de Usuarios</div>
                         <div class="card-body">
-                            <p class="card-title main__total-productos">Total de Productos: {{ totalItems }}</p>
+                            <p class="card-title main__total-productos">Total de Usuarios: {{ totalUsuarios }} </p>
                         </div>
                     </div>
 
-                    <div v-if="productoConMayorCantidad" class="card mb-3 dash__card" style="max-width: 18rem;">
-                        <div class="card-header card-header--titulo">Producto con Mayor Cantidad</div>
+                    <div v-if="totalAdministradores > 0" class="card mb-3 dash__card" style="max-width: 18rem;">
+                        <div class="card-header card-header--titulo">Administradores</div>
                         <div class="card-body">
-                            <p class="main__producto-mayor-cantidad">{{ productoConMayorCantidad.nombre_producto }} -
-                                Cantidad: {{ productoConMayorCantidad.cantidad }}</p>
+                            <p class="main__producto-mayor-cantidad">
+                                Cantidad de Administradores: {{ totalAdministradores }} </p>
                         </div>
                     </div>
 
-                    <div v-if="productoConMayorPrecio" class="card mb-3 dash__card" style="max-width: 18rem;">
-                        <div class="card-header card-header--titulo">Producto con Mayor Precio</div>
+                    <div v-if="totalNormales > 0" class="card mb-3 dash__card" style="max-width: 18rem;">
+                        <div class="card-header card-header--titulo">Normales</div>
                         <div class="card-body">
-                            <p class="main__producto-mayor-precio">{{ productoConMayorPrecio.nombre_producto }} -
-                                Precio: ${{ productoConMayorPrecio.precio_unitario }}</p>
+                            <p class="main__producto-mayor-precio">
+                                Cantidad de Normales: {{ totalNormales }} </p>
                         </div>
                     </div>
                 </section>
-
-                <div class="main__text-end mb-3">
-                    <button class="btn btn-light me-2 main__boton--orden" @click="ordenarTabla('cantidad')">Ordenar por
-                        Cantidad</button>
-                    <button class="btn btn-light main__boton--orden" @click="ordenarTabla('precio_unitario')">Ordenar
-                        por Precio</button>
-                </div>
 
                 <section class="mb-4">
                     <div class="table-responsive">
@@ -73,32 +66,24 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th class="text-center" scope="col">Id</th>
-                                    <th class="text-center" scope="col">Nombre del Producto</th>
-                                    <th class="text-center" scope="col">Descripción del Producto</th>
-                                    <th class="text-center" scope="col">Categoría</th>
-                                    <th class="text-center" scope="col">Proveedor</th>
-                                    <th class="text-center" scope="col">Cantidad</th>
-                                    <th class="text-center" scope="col">Precio Unitario</th>
+                                    <th class="text-center" scope="col">Usuario</th>
+                                    <th class="text-center" scope="col">Tipo de Usuario</th>
                                     <th class="text-center" scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="producto in productos" :key="producto.id" class="table-row-hover">
-                                    <td class="fw-bold text-center talbe-contenido" scope="row">{{ producto.id }}</td>
-                                    <td class="talbe-contenido">{{ producto.nombre_producto }}</td>
-                                    <td class="talbe-contenido">{{ producto.descripcion_producto }}</td>
-                                    <td class="text-center talbe-contenido">{{ producto.categoria }}</td>
-                                    <td class="text-center talbe-contenido">{{ producto.proveedor }}</td>
-                                    <td class="text-center talbe-contenido">{{ producto.cantidad }}</td>
-                                    <td class="text-center talbe-contenido">${{ producto.precio_unitario }}</td>
-                                    <td>
+                                <tr v-for="usuario in usuariosPaginados" :key="usuario.id" class="table-row-hover">
+                                    <td class="fw-bold text-center talbe-contenido" scope="row">{{ usuario.id }}</td>
+                                    <td class="text-center talbe-contenido">{{ usuario.user }}</td>
+                                    <td class="text-center talbe-contenido">{{ usuario.rol_id === 1 ? 'Administrador' : 'Normal' }}</td>
+                                    <td class="text-center table-content">
                                         <div class="d-flex justify-content-center gap-2 flex-wrap">
                                             <a class="btn btn-primary btn-sm me-1"
-                                                :href="'producto_update.html?id=' + producto.id">
+                                                :href="'usuarios_update.html?id=' + usuario.id">
                                                 <i class="fa-solid fa-pen-to-square"></i> Editar
                                             </a>
                                             <button type="button" class="btn btn-danger btn-sm"
-                                                v-on:click="eliminar(producto.id)">
+                                                @click="eliminar(usuario.id)">
                                                 <i class="fa-solid fa-trash"></i> Eliminar
                                             </button>
                                         </div>
@@ -147,7 +132,7 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="../Public/javascript/header.js"></script>
-    <script src="../Public/javascript/productos.js"></script>
+    <script src="../Public/javascript/usuarios.js"></script>
 </body>
 
 </html>

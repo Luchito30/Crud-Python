@@ -115,3 +115,10 @@
     margin-bottom: 20px;
     color: white;
 }
+
+.main__nohay{
+    text-align: center;
+    filter: drop-shadow(2px 4px 6px black);
+    font-size: 20px;
+    font-weight: 900;
+}

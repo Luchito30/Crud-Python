@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Editar Usuario</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://kit.fontawesome.com/2d353964a9.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../Public/stylesheet/style.css">
+</head>
+
+<body>
+    <header id="header">
+        <!-- Coloca tu barra de navegación aquí -->
+    </header>
+    <div id="app" class="container mt-4">
+        <h1 class="main__titulo">Editar Usuario</h1>
+
+        <form>
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario</label>
+                <input type="text" v-model="usuario" class="form-control" id="usuario">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Nueva Contraseña</label>
+                <input type="password" v-model="clave" class="form-control" id="password">
+            </div>
+
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña</label>
+                <input type="password" v-model="confirmarClave" class="form-control" id="confirmPassword">
+            </div>
+
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol</label>
+                <select v-model="rol" class="form-select" id="rol">
+                    <option :value="1" :selected="rol === 1">Administrador</option>
+                    <option :value="2" :selected="rol === 2">Normal</option>
+                </select>
+            </div>            
+            
+            <button type="button" class="btn btn-primary" v-on:click="editarUsuario()">Guardar Cambios</button>
+            <a class="btn btn-outline-dark" href="./usuarios.html">Cancelar</a>
+        </form>
+    </div>
+    <footer class="mt-5 text-center">
+        <p>&copy; 2023 PET CARE. Todos los derechos reservados.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="../Public/javascript/header.js"></script>
+    <script src="../Public/javascript/usuarios_editar.js"></script>
+</body>
+
+</html>

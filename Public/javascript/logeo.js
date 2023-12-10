@@ -36,7 +36,7 @@ createApp({
             text: `Bienvenido ${this.user}`
           }).then(() => {
             // Redireccionar a la página de bienvenida
-            window.location.href = './bienvenida.html';
+            window.location.href = './productos.html';
           });
         } else {
           const error = await response.json();

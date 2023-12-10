@@ -29,7 +29,7 @@ document.getElementById("header").innerHTML = `
             <div class="d-flex align-items-center justify-content-between w-100">
                 <!-- Primera sección: Logo -->
                 <div class="d-flex align-items-center">
-                    <a class="navbar-brand" href="./bienvenida.html">
+                    <a class="navbar-brand" href="./productos.html">
                         <img class="header__logo" src="../Public/Img/logo_petcare.png" alt="Logo">
                     </a>
                 </div>
@@ -42,15 +42,18 @@ document.getElementById("header").innerHTML = `
                     <li class="nav-item">
                         <a class="nav-link header__menu" href="./turnos.html">TURNOS</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link header__menu" href="./usuarios.html">USUARIOS</a>
+                    </li>
                 </ul>
 
                 <!-- Tercera sección: Hora, Usuario y Salir -->
                 <div class="d-flex flex-column">
                     <span class="nav-link header__hora mb-3" id="horaActual">${obtenerFechaHoraActual()}</span>
                     <div class="d-flex flex-column">
-                        <div class="nav-link d-flex gap-5 mb-3">
+                        <div class="nav-link d-flex gap-3 mb-3">
                             <span class="header__usartam">${user ? `Usuario: ${user}` : ''}</span>
-                            <span class="header__usartam">${rol_id === "1" ? 'Tipo: Admin' : 'Tipo: Normal'}</span>
+                            <span class="header__usartam">${rol_id === "1" ? 'Tipo: Administrador' : 'Tipo: Normal'}</span>
                         </div>
                         <a class="btn btn-outline-danger" href="./index.html" onclick="salir()">Salir</a>
                     </div>
@@ -59,6 +62,3 @@ document.getElementById("header").innerHTML = `
         </div>
     </nav>
     `;
-
-    console.log("el rol_id:" + rol_id)
-    console.log("el user:" + user)

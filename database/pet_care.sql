@@ -57,8 +57,3 @@ CREATE TABLE IF NOT EXISTS usuario (
     rol_id INT NOT NULL,
     FOREIGN KEY (rol_id) REFERENCES rol(id)
 );
-
--- Insertar usuarios de prueba
-INSERT INTO usuario (user, password, rol_id) VALUES
-    ('admin', 'petcareadmin1', 1),
-    ('Murdoy', 'petcare123', 2);
